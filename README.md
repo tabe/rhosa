@@ -4645,7 +4645,7 @@ this project.
 
 ## References
 
-\[1\] Villa, Alessandro E. P., and Igor V. Tetko. “Cross-Frequency
+\[1\] Villa, Alessandro E. P., and Tetko, Igor V. “Cross-Frequency
 Coupling in Mesiotemporal EEG Recordings of Epileptic Patients.” Journal
 of Physiology-Paris, Neural Coding, 104, no. 3 (May 1, 2010): 197–202.
 <https://doi.org/10.1016/j.jphysparis.2009.11.024>.
