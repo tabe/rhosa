@@ -1,0 +1,119 @@
+## -*- mode: R -*-
+##
+## Copyright (C) 2019 Takeshi Abe <tabe@fixedpoint.jp>
+##
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+## Tests for bispectrum()
+
+assert_bispectrum_result <- function(x) {
+    expect_s3_class(x, "data.frame")
+    expect_named(x, c("x", "y", "value"))
+}
+
+test_that("bispectrum accepts a vector", {
+    v <- rnorm(64)
+    bs <- expect_silent(bispectrum(v))
+    assert_bispectrum_result(bs)
+})
+
+test_that("bispectrum accepts an array", {
+    a <- array(rnorm(64))
+    bs <- expect_silent(bispectrum(a))
+    assert_bispectrum_result(bs)
+})
+
+test_that("bispectrum accepts a matrix", {
+    v <- rnorm(1024)
+    m <- matrix(v, ncol = 16)
+    bs <- expect_silent(bispectrum(m))
+    assert_bispectrum_result(bs)
+})
+
+test_that("bispectrum accepts a data.frame", {
+    df <- data.frame(a = runif(64),
+                     b = rnorm(64),
+                     c = runif(64, min = -2, max = 2),
+                     d = rnorm(64, sd = 3))
+    bs <- expect_silent(bispectrum(df))
+    assert_bispectrum_result(bs)
+})
+
+test_that("bispectrum accepts a data.matrix", {
+    df <- data.frame(a = runif(64),
+                     b = rnorm(64),
+                     c = runif(64, min = -2, max = 2),
+                     d = rnorm(64, sd = 3))
+    dm <- data.matrix(df)
+    bs <- expect_silent(bispectrum(dm))
+    assert_bispectrum_result(bs)
+})
+
+test_that("bispectrum accepts a time-series", {
+    v <- rnorm(64)
+    bs <- expect_silent(bispectrum(stats::ts(v)))
+    assert_bispectrum_result(bs)
+})
+
+## Tests for bicoherence()
+
+assert_bicoherence_result <- function(x) {
+    expect_s3_class(x, "data.frame")
+    expect_named(x, c("x", "y", "msbc", "p_value", "significance"))
+}
+
+test_that("bicoherence accepts a vector", {
+    v <- rnorm(64)
+    bs <- expect_silent(bicoherence(v))
+    assert_bicoherence_result(bs)
+})
+
+test_that("bicoherence accepts an array", {
+    a <- array(rnorm(64))
+    bs <- expect_silent(bicoherence(a))
+    assert_bicoherence_result(bs)
+})
+
+test_that("bicoherence accepts a matrix", {
+    v <- rnorm(1024)
+    m <- matrix(v, ncol = 16)
+    bs <- expect_silent(bicoherence(m))
+    assert_bicoherence_result(bs)
+})
+
+test_that("bicoherence accepts a data.frame", {
+    df <- data.frame(a = runif(64),
+                     b = rnorm(64),
+                     c = runif(64, min = -2, max = 2),
+                     d = rnorm(64, sd = 3))
+    bs <- expect_silent(bicoherence(df))
+    assert_bicoherence_result(bs)
+})
+
+test_that("bicoherence accepts a data.matrix", {
+    df <- data.frame(a = runif(64),
+                     b = rnorm(64),
+                     c = runif(64, min = -2, max = 2),
+                     d = rnorm(64, sd = 3))
+    dm <- data.matrix(df)
+    bs <- expect_silent(bicoherence(dm))
+    assert_bicoherence_result(bs)
+})
+
+test_that("bicoherence accepts a time-series", {
+    v <- rnorm(64)
+    bs <- expect_silent(bicoherence(stats::ts(v)))
+    assert_bicoherence_result(bs)
+})
+
