@@ -19,7 +19,7 @@
 
 assert_bispectrum_result <- function(x) {
     expect_s3_class(x, "data.frame")
-    expect_named(x, c("x", "y", "value"))
+    expect_named(x, c("f1", "f2", "value"))
 }
 
 test_that("bispectrum accepts a vector", {
@@ -70,7 +70,7 @@ test_that("bispectrum accepts a time-series", {
 
 assert_bicoherence_result <- function(x) {
     expect_s3_class(x, "data.frame")
-    expect_named(x, c("x", "y", "msbc", "p_value", "significance"))
+    expect_named(x, c("f1", "f2", "msbc", "p_value", "significance"))
 }
 
 test_that("bicoherence accepts a vector", {

@@ -16,10 +16,10 @@ correspond to sampled stretches.}
 \value{
 A data frame including the following columns:
 \describe{
-\item{x:}{
+\item{f1:}{
 The first elements of frequency pairs.
 }
-\item{y:}{
+\item{f2:}{
 The second elements of frequency pairs.
 }
 \item{value:}{

@@ -1,7 +1,7 @@
 Package: rhosa
 Title: Higher-order spectral analysis in R
 Date: 2019-10-21
-Version: 0.0.1.9000
+Version: 0.0.1.9001
 Authors@R: 
     person(given = "Takeshi",
            family = "Abe",

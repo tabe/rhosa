@@ -25,7 +25,7 @@
     stopifnot(length(n) == 1, n >= 1)
 
     ymax <- function(x) ifelse(x <= n / 3, x, n - 2 * x)
-    do.call(rbind, Map(function(x, u) data.frame(x = x/n, y = (0:u)/n), 0:(n/2), ymax(0:(n/2))))
+    do.call(rbind, Map(function(x, u) data.frame(f1 = x/n, f2 = (0:u)/n), 0:(n/2), ymax(0:(n/2))))
 }
 
 ## Build a taper function
@@ -64,9 +64,9 @@
 
     tr <- .generate_triangle(V)
 
-    data.frame(x = tr$x,
-               y = tr$y,
-               value = mapply(f3, tr$x, tr$y, SIMPLIFY = TRUE))
+    data.frame(f1 = tr$f1,
+               f2 = tr$f2,
+               value = mapply(f3, tr$f1, tr$f2, SIMPLIFY = TRUE))
 }
 
 #' Estimate bispectrum from time series data.
@@ -80,10 +80,10 @@
 #'
 #' @return A data frame including the following columns:
 #' \describe{
-#' \item{x:}{
+#' \item{f1:}{
 #' The first elements of frequency pairs.
 #' }
-#' \item{y:}{
+#' \item{f2:}{
 #' The second elements of frequency pairs.
 #' }
 #' \item{value:}{
@@ -140,15 +140,22 @@ bispectrum <- function(data, window_function = NULL) {
 #'
 #' @return A data frame including the following columns:
 #' \describe{
+#' \item{f1:}{
+#' The first elements of frequency pairs.
+#' }
+#' \item{f2:}{
+#' The second elements of frequency pairs.
+#' }
 #' \item{msbc:}{
-#' the estimate of (magnitude-squared) bicoherence.
+#' The estimate of (magnitude-squared) bicoherence at the respective frequency
+#' pair.
 #' }
 #' \item{p_value:}{
-#' the (corrected, if requested) p-value for hypothesis testing under null
+#' The (corrected, if requested) p-value for hypothesis testing under null
 #' hypothesis that bicoherence is 0.
 #' }
 #' \item{significance:}{
-#' true if the null hypothesis of the above hypothesis test is rejected
+#' TRUE if the null hypothesis of the above hypothesis test is rejected
 #' with given \code{alpha} level.
 #' }
 #' }
@@ -212,7 +219,7 @@ bicoherence <- function(data,
     }
 
     bs <- .bispectrum(L, V, h3, tdft)
-    msbc <- abs(bs$value)^2 / denom(bs$x, bs$y)
+    msbc <- abs(bs$value)^2 / denom(bs$f1, bs$f2)
 
     ## The mean of approximated distribution under null hypothesis that
     ## bicoherence = 0 is said to be exponential.
@@ -224,8 +231,8 @@ bicoherence <- function(data,
     if (is.character(p_adjust_method))
         p_value <- stats::p.adjust(p_value, p_adjust_method)
 
-    data.frame(x = bs$x,
-               y = bs$y,
+    data.frame(f1 = bs$f1,
+               f2 = bs$f2,
                msbc = msbc,
                p_value = p_value,
                significance = (p_value < alpha))

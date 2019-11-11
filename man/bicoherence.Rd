@@ -23,15 +23,22 @@ No correction if a non-character is given.}
 \value{
 A data frame including the following columns:
 \describe{
+\item{f1:}{
+The first elements of frequency pairs.
+}
+\item{f2:}{
+The second elements of frequency pairs.
+}
 \item{msbc:}{
-the estimate of (magnitude-squared) bicoherence.
+The estimate of (magnitude-squared) bicoherence at the respective frequency
+pair.
 }
 \item{p_value:}{
-the (corrected, if requested) p-value for hypothesis testing under null
+The (corrected, if requested) p-value for hypothesis testing under null
 hypothesis that bicoherence is 0.
 }
 \item{significance:}{
-true if the null hypothesis of the above hypothesis test is rejected
+TRUE if the null hypothesis of the above hypothesis test is rejected
 with given \code{alpha} level.
 }
 }

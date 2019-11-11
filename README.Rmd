@@ -132,17 +132,17 @@ plot_bispectrum <- function(bs) {
     with(bs, {
         open3d()
         mfrow3d(nr = 1, nc = 2, sharedMouse = TRUE)
-        plot3d(x, y, Re(value), col = ifelse(abs(Re(value)) > 1, "red", "blue"))
+        plot3d(f1, f2, Re(value), col = ifelse(abs(Re(value)) > 1, "red", "blue"))
         grid3d(c("x", "y+", "z"))
         next3d()
-        plot3d(x, y, Im(value), col = ifelse(abs(Im(value)) > 1, "red", "blue"))
+        plot3d(f1, f2, Im(value), col = ifelse(abs(Im(value)) > 1, "red", "blue"))
         grid3d(c("x", "y+", "z"))
     })
 }
 ```
 
 Each line of the following snippets shows an interactive 3D point plot.
-The x and y axis represent normalized frequencies in unit cycles/sample of range
+The f1 and f2 axis represent normalized frequencies in unit cycles/sample of range
 [0, 1).
 
 ```{r viz_bs_v_Re, fig.cap = "v's estimated bispectrum", webgl = TRUE}
@@ -174,7 +174,7 @@ tapering with Hamming window function (`hamming_window` function in rhosa).
 plot_bicoherence <- function(bc) {
     with(bc, {
         open3d()
-        plot3d(x, y, msbc, col = ifelse(significance, "red", "blue"))
+        plot3d(f1, f2, msbc, col = ifelse(significance, "red", "blue"))
         grid3d(c("x", "y+", "z"))
     })
 }
