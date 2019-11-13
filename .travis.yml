@@ -1,9 +1,5 @@
 version: ~> 1.0
 
-arch:
-  - amd64
-  - arm64
-
 language: r
 
 r:
