@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 This package aims to provide functions to analyze and estimate higher-order
-spectra or polyspectra of time series, such as bispectrum and bicoherence.
+spectra or polyspectra of time series, such as bispectrum and bicoherence [1].
 
 ## Installation
 
@@ -37,7 +37,7 @@ devtools::install_github("tabe/rhosa")
 ```
 ## Example
 
-This is an example, based on the outline at Figure 1 of [1], which shows you how
+This is an example, based on the outline at Figure 1 of [2], which shows you how
 to use rhosa's functions in the simplest way.
 
 First of all, let's load and attach rhosa.
@@ -202,7 +202,6 @@ The author thanks Alessandro E. P. Villa for his generous support to this projec
 
 ## References
 
-[1] Villa, Alessandro E. P., and Tetko, Igor V.
-    "Cross-Frequency Coupling in Mesiotemporal EEG Recordings of Epileptic Patients."
-    Journal of Physiology-Paris, Neural Coding, 104, no. 3 (May 1, 2010): 197–202.
-    https://doi.org/10.1016/j.jphysparis.2009.11.024.
+[1] Brillinger, D. R., & Irizarry, R. A. (1998). An investigation of the second- and higher-order spectra of music. Signal Processing, 65(2), 161–179. https://doi.org/10.1016/S0165-1684(97)00217-X
+
+[2] Villa, A. E. P., & Tetko, I. V. (2010). Cross-frequency coupling in mesiotemporal EEG recordings of epileptic patients. Journal of Physiology-Paris, 104(3), 197–202. https://doi.org/10.1016/j.jphysparis.2009.11.024
