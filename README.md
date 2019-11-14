@@ -23,8 +23,8 @@ install.packages("rhosa")
 And the development version from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("tabe/rhosa")
+# install.packages("remotes")
+remotes::install_github("tabe/rhosa")
 ```
 
 ## Example
