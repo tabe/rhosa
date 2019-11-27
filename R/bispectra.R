@@ -17,7 +17,8 @@
 
 ## On unit of frequency
 ## We suppose that values of frequencies given to our API is in normalized
-## frequency i.e. in cycles/sample.  So its domain is [0, 1).
+## frequency i.e. in cycles/sample (or, more precisely, in cycles per sampling
+## interval).  So its domain is [0, 1).
 ## In other words, the normalized Nyquist frequency for real signals is 0.5
 ## cycles/sample, and the normalized sample rate is 1.
 
@@ -25,7 +26,8 @@
     stopifnot(length(n) == 1, n >= 1)
 
     ymax <- function(x) ifelse(x <= n / 3, x, n - 2 * x)
-    do.call(rbind, Map(function(x, u) data.frame(f1 = x/n, f2 = (0:u)/n), 0:(n/2), ymax(0:(n/2))))
+    xs <- 0:(n %/% 2)
+    do.call(rbind, Map(function(x, u) data.frame(x1 = x, x2 = 0:u), xs, ymax(xs)))
 }
 
 ## Build a taper function
@@ -41,13 +43,34 @@
     }
 }
 
-.bispectrum <- function(L, V, h3, tdft) {
-    d <- function(f, l) {
-        v <- round(f * V) + 1
+## tapered discrete Fourier transform of the l-th stretch
+##
+## Note that l is 1-based.
+## d <- function(f, l) {
+##     sum(Map(function(v) h((v + 1) / (V + 1)) * data[v + 1, l] * exp(2 * pi * -1i * v * f), 0:(V-1)))
+## }
+## Aapply taper to each column if necessary.
+.tdft <- function(data, window_function, V) {
+    tapered_data <- as.matrix(apply(data, 2, .taper_function(window_function, V)))
+    ## tdft is a complex-valued matrix of dimension (V, L).
+    tdft <- stats::mvfft(tapered_data)
+    function(x, l) {
+        v <- x + 1
         stopifnot(1 <= v, v <= V)
         tdft[v, l]
     }
+}
 
+.h3 <- function(window_function) {
+    if (is.null(window_function)) {
+        1
+    } else {
+        C3 <- stats::integrate(function(x) window_function(x)^3, 0, 1)
+        C3$value
+    }
+}
+
+.bispectrum <- function(L, V, h3, d, tr) {
     ## 3rd order periodogram of the l-th stretch
     ## Again, l is 1-based.
     ## See equation (A.5) in [1]'s Appendix A.
@@ -62,11 +85,9 @@
         mean(sapply(1:L, function(l) I3(lambda, mu, l)))
     }
 
-    tr <- .generate_triangle(V)
-
-    data.frame(f1 = tr$f1,
-               f2 = tr$f2,
-               value = mapply(f3, tr$f1, tr$f2, SIMPLIFY = TRUE))
+    data.frame(f1 = tr$x1 / V,
+               f2 = tr$x2 / V,
+               value = mapply(f3, tr$x1, tr$x2, SIMPLIFY = TRUE))
 }
 
 #' Estimate bispectrum from time series data.
@@ -110,23 +131,10 @@ bispectrum <- function(data, window_function = NULL) {
     if (V == 0)
         stop("row of length 0 given")
 
-    h3 <- 1
-    if (!is.null(window_function)) {
-        C3 <- stats::integrate(function(x) window_function(x)^3, 0, 1)
-        h3 <- C3$value
-    }
-
-    ## tapered Fourier transform of the l-th stretch
-    ## Note that l is 1-based.
-    ## d <- function(f, l) {
-    ##     sum(Map(function(v) h((v + 1) / (V + 1)) * data[v + 1, l] * exp(2 * pi * -1i * v * f), 0:(V-1)))
-    ## }
-    ## Aapply taper to each column if necessary.
-    tapered_data <- as.matrix(apply(data, 2, .taper_function(window_function, V)))
-    ## tdft is a complex-valued matrix of dimension (V, L).
-    tdft <- stats::mvfft(tapered_data)
-
-    .bispectrum(L, V, h3, tdft)
+    h3 <- .h3(window_function)
+    d <- .tdft(data, window_function, V)
+    tr <- .generate_triangle(V)
+    .bispectrum(L, V, h3, d, tr)
 }
 
 #' Estimate bicoherence from given time series data.
@@ -182,26 +190,16 @@ bicoherence <- function(data,
         stop("row of length 0 given")
 
     h2 <- 1
-    h3 <- 1
+    h3 <- .h3(window_function)
     h6 <- 1
     if (!is.null(window_function)) {
         C2 <- stats::integrate(function(x) window_function(x)^2, 0, 1)
         h2 <- C2$value
-        C3 <- stats::integrate(function(x) window_function(x)^3, 0, 1)
-        h3 <- C3$value
         C6 <- stats::integrate(function(x) window_function(x)^6, 0, 1)
         h6 <- C6$value
     }
 
-    ## Aapply taper to each column if necessary.
-    tapered_data <- as.matrix(apply(data, 2, .taper_function(window_function, V)))
-    ## tdft is a complex-valued matrix of dimension (V, L).
-    tdft <- stats::mvfft(tapered_data)
-    d <- function(f, l) {
-        v <- round(f * V) + 1
-        stopifnot(1 <= v, v <= V)
-        tdft[v, l]
-    }
+    d <- .tdft(data, window_function, V)
 
     ## 2nd order periodogram of the l-th strech
     ## Again, l is 1-based.
@@ -222,8 +220,9 @@ bicoherence <- function(data,
         mapply(function(fx, fy) {f2(fx) * f2(fy) * f2(fx + fy)}, x, y)
     }
 
-    bs <- .bispectrum(L, V, h3, tdft)
-    msbc <- abs(bs$value)^2 / denom(bs$f1, bs$f2)
+    tr <- .generate_triangle(V)
+    bs <- .bispectrum(L, V, h3, d, tr)
+    msbc <- abs(bs$value)^2 / denom(tr$x1, tr$x2)
 
     ## The mean of approximated distribution under null hypothesis that
     ## bicoherence = 0 is said to be exponential.
