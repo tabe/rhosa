@@ -120,7 +120,7 @@ bispectrum <- function(data, window_function = NULL) {
     ##     sum(Map(function(v) h((v + 1) / (V + 1)) * data[v + 1, l] * exp(2 * pi * -1i * v * f), 0:(V-1)))
     ## }
     ## Aapply taper to each column if necessary.
-    tapered_data <- apply(data, 2, .taper_function(window_function, V))
+    tapered_data <- as.matrix(apply(data, 2, .taper_function(window_function, V)))
     ## tdft is a complex-valued matrix of dimension (V, L).
     tdft <- stats::mvfft(tapered_data)
 
@@ -190,7 +190,7 @@ bicoherence <- function(data,
     }
 
     ## Aapply taper to each column if necessary.
-    tapered_data <- apply(data, 2, .taper_function(window_function, V))
+    tapered_data <- as.matrix(apply(data, 2, .taper_function(window_function, V)))
     ## tdft is a complex-valued matrix of dimension (V, L).
     tdft <- stats::mvfft(tapered_data)
     d <- function(f, l) {

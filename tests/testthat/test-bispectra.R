@@ -66,6 +66,11 @@ test_that("bispectrum accepts a time-series", {
     assert_bispectrum_result(bs)
 })
 
+test_that("bispectrum of a time-series of length 1", {
+    bs <- expect_silent(bispectrum(stats::ts(c(0.777))))
+    assert_bispectrum_result(bs)
+})
+
 ## Tests for bicoherence()
 
 assert_bicoherence_result <- function(x) {
@@ -114,6 +119,11 @@ test_that("bicoherence accepts a data.matrix", {
 test_that("bicoherence accepts a time-series", {
     v <- rnorm(64)
     bs <- expect_silent(bicoherence(stats::ts(v)))
+    assert_bicoherence_result(bs)
+})
+
+test_that("bicoherence of a time-series of length 1", {
+    bs <- expect_silent(bicoherence(stats::ts(c(0.777))))
     assert_bicoherence_result(bs)
 })
 
