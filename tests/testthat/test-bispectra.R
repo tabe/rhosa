@@ -66,6 +66,10 @@ test_that("bispectrum accepts a time-series", {
     assert_bispectrum_result(bs)
 })
 
+test_that("bispectrum rejects data of length 0", {
+    expect_error(bispectrum(numeric()), "row of length 0 given")
+})
+
 test_that("bispectrum of a time-series of length 1", {
     bs <- expect_silent(bispectrum(stats::ts(c(0.777))))
     assert_bispectrum_result(bs)
@@ -120,6 +124,10 @@ test_that("bicoherence accepts a time-series", {
     v <- rnorm(64)
     bs <- expect_silent(bicoherence(stats::ts(v)))
     assert_bicoherence_result(bs)
+})
+
+test_that("bicoherence rejects data of length 0", {
+    expect_error(bicoherence(numeric()), "row of length 0 given")
 })
 
 test_that("bicoherence of a time-series of length 1", {

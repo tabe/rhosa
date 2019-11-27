@@ -107,6 +107,8 @@ bispectrum <- function(data, window_function = NULL) {
     L <- ncol(data)
     ## the length of each stretch
     V <- nrow(data)
+    if (V == 0)
+        stop("row of length 0 given")
 
     h3 <- 1
     if (!is.null(window_function)) {
@@ -176,6 +178,8 @@ bicoherence <- function(data,
     L <- ncol(data)
     ## the length of each stretch
     V <- nrow(data)
+    if (V == 0)
+        stop("row of length 0 given")
 
     h2 <- 1
     h3 <- 1
