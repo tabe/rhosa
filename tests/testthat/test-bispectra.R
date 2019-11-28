@@ -75,6 +75,22 @@ test_that("bispectrum of a time-series of length 1", {
     assert_bispectrum_result(bs)
 })
 
+test_that("bispectrum of an alternating series", {
+    v <- rep(c(1, -1), 32)
+    bs <- expect_silent(bispectrum(v))
+    assert_bispectrum_result(bs)
+    expect_equal(bs$value, rep(0+0i, 374))
+})
+
+test_that("bispectrum of series with the opposite sign", {
+    v <- runif(64, min = -1, max = 1)
+    bs1 <- expect_silent(bispectrum(v))
+    bs2 <- expect_silent(bispectrum(-v))
+    assert_bispectrum_result(bs1)
+    assert_bispectrum_result(bs2)
+    expect_equal(bs1$value, -bs2$value)
+})
+
 ## Tests for bicoherence()
 
 assert_bicoherence_result <- function(x) {
