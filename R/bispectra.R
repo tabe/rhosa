@@ -49,7 +49,7 @@
 ## d <- function(f, l) {
 ##     sum(Map(function(v) h((v + 1) / (V + 1)) * data[v + 1, l] * exp(2 * pi * -1i * v * f), 0:(V-1)))
 ## }
-## Aapply taper to each column if necessary.
+## Apply taper to each column if necessary.
 .tdft <- function(data, window_function, V) {
     tapered_data <- as.matrix(apply(data, 2, .taper_function(window_function, V)))
     ## tdft is a complex-valued matrix of dimension (V, L).
@@ -61,12 +61,12 @@
     }
 }
 
-.h3 <- function(window_function) {
+.h <- function(k, window_function) {
     if (is.null(window_function)) {
         1
     } else {
-        C3 <- stats::integrate(function(x) window_function(x)^3, 0, 1)
-        C3$value
+        a <- stats::integrate(function(x) window_function(x)^k, 0, 1)
+        a$value
     }
 }
 
@@ -131,7 +131,7 @@ bispectrum <- function(data, window_function = NULL) {
     if (V == 0)
         stop("row of length 0 given")
 
-    h3 <- .h3(window_function)
+    h3 <- .h(3, window_function)
     d <- .tdft(data, window_function, V)
     tr <- .generate_triangle(V)
     .bispectrum(L, V, h3, d, tr)
@@ -189,15 +189,9 @@ bicoherence <- function(data,
     if (V == 0)
         stop("row of length 0 given")
 
-    h2 <- 1
-    h3 <- .h3(window_function)
-    h6 <- 1
-    if (!is.null(window_function)) {
-        C2 <- stats::integrate(function(x) window_function(x)^2, 0, 1)
-        h2 <- C2$value
-        C6 <- stats::integrate(function(x) window_function(x)^6, 0, 1)
-        h6 <- C6$value
-    }
+    h2 <- .h(2, window_function)
+    h3 <- .h(3, window_function)
+    h6 <- .h(6, window_function)
 
     d <- .tdft(data, window_function, V)
 
