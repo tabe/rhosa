@@ -4,8 +4,7 @@
 \alias{bicoherence}
 \title{Estimate bicoherence from given time series data.}
 \usage{
-bicoherence(data, window_function = NULL, alpha = 0.05,
-  p_adjust_method = "BH")
+bicoherence(data, window_function = NULL, alpha = 0.05, p_adjust_method = "BH")
 }
 \arguments{
 \item{data}{Given time series, as a data frame or matrix with which columns
