@@ -125,17 +125,17 @@ library(knitr)
 knit_hooks$set(webgl = hook_webgl)
 ```
 
-... and define a couple of R functions to plot estimated bispectrum:
+... and define a couple of R functions to plot estimated bispectrum in the polar coordinates:
 
 ```{r}
 plot_bispectrum <- function(bs) {
     with(bs, {
         open3d()
         mfrow3d(nr = 1, nc = 2, sharedMouse = TRUE)
-        plot3d(f1, f2, Re(value), col = ifelse(abs(Re(value)) > 1, "red", "blue"))
+        plot3d(f1, f2, Mod(value), col = ifelse(abs(Mod(value)) > 1, "red", "blue"))
         grid3d(c("x", "y+", "z"))
         next3d()
-        plot3d(f1, f2, Im(value), col = ifelse(abs(Im(value)) > 1, "red", "blue"))
+        plot3d(f1, f2, Arg(value), col = ifelse(abs(Mod(value)) > 1, "red", "green"))
         grid3d(c("x", "y+", "z"))
     })
 }
@@ -144,6 +144,9 @@ plot_bispectrum <- function(bs) {
 Each line of the following snippets shows an interactive 3D point plot.
 The f1 and f2 axis represent normalized frequencies in unit cycles/sample of range
 [0, 1).
+While the modulus (or the absolute value) of the estimated complex values is plotted
+in the left side, the argument (or the angle) of them is in the right.
+A red point in the both sides indicates the higher absoute value than 1.
 
 ```{r viz_bs_v_Re, fig.cap = "v's estimated bispectrum", webgl = TRUE}
 plot_bispectrum(bs_v)
