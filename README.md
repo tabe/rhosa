@@ -159,10 +159,10 @@ plot_bispectrum <- function(bs) {
     with(bs, {
         open3d()
         mfrow3d(nr = 1, nc = 2, sharedMouse = TRUE)
-        plot3d(f1, f2, Mod(value), col = ifelse(abs(Mod(value)) > 1, "red", "blue"))
+        plot3d(f1, f2, Mod(value), col = ifelse(Mod(value) > 1, "red", "blue"))
         grid3d(c("x", "y+", "z"))
         next3d()
-        plot3d(f1, f2, Arg(value), col = ifelse(abs(Mod(value)) > 1, "red", "green"))
+        plot3d(f1, f2, Arg(value), col = ifelse(Mod(value) > 1, "red", "green"))
         grid3d(c("x", "y+", "z"))
     })
 }
