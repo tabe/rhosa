@@ -4,7 +4,7 @@
 \alias{cross_bispectrum}
 \title{Estimate cross-bispectrum from time series data.}
 \usage{
-cross_bispectrum(x, y, z, dft_given = FALSE)
+cross_bispectrum(x, y, z = y, dft_given = FALSE)
 }
 \arguments{
 \item{x}{Given 1st time series, as a data frame or matrix with which columns
@@ -12,10 +12,11 @@ correspond to sampled stretches.}
 
 \item{y}{Given 2nd time series, with the same dimension as x.}
 
-\item{z}{Given 3rd time series, with the same dimension as x (and thus as y).}
+\item{z}{Optional 3rd time series, with the same dimension as x (and thus as y).
+If omitted, \code{y} is used instead.}
 
 \item{dft_given}{If TRUE, suppose that DFTs is given instead of time series
-data and skip the fast fourier transform.}
+data and skip the fast fourier transform. Default: FALSE.}
 }
 \value{
 A data frame including the following columns:
