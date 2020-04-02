@@ -8,8 +8,8 @@
 <!-- badges: end -->
 
 This package aims to provide functions to analyze and estimate
-higher-order spectra or polyspectra of time series, such as bispectrum
-and bicoherence \[1\].
+higher-order spectra or polyspectra of multivariate time series, such as
+bispectrum and bicoherence \[1\].
 
 ## Installation
 
@@ -20,7 +20,9 @@ You can install the released version of rhosa from
 install.packages("rhosa")
 ```
 
-And the development version from [GitHub](https://github.com/) with:
+Alternatively, the development version from
+[GitHub](https://github.com/) with
+[remotes](https://cran.r-project.org/package=remotes):
 
 ``` r
 # install.packages("remotes")
@@ -30,7 +32,7 @@ remotes::install_github("tabe/rhosa")
 ## Example
 
 This is an example, based on the outline at Figure 1 of \[2\], which
-shows you how to use rhosa’s functions in the simplest way.
+shows how to use rhosa’s functions in the simplest way.
 
 First of all, let’s load and attach rhosa.
 
@@ -171,8 +173,8 @@ plot_bispectrum <- function(bs) {
 Each line of the following snippets shows an interactive 3D point plot.
 The f1 and f2 axis represent normalized frequencies in unit
 cycles/sample of range \[0, 1). While the modulus (or the absolute
-value) of the estimated complex values is plotted in the left side, the
-argument (or the angle) of them is in the right. A red point in the both
+value) of the estimated complex values is plotted on the left side, the
+argument (or the angle) of them is on the right. A red point in the both
 sides indicates the higher absoute value than 1.
 
 ``` r
@@ -4584,14 +4586,14 @@ You must enable Javascript to view this page properly.
 
 <script>viz_bs_w_Rergl.start();</script>
 
-Unlike the power spectrum case, the plots shows that the real and
-imaginary part of their bispectra have high absolute values of different
-signs at frequency pair e.g. (0.1, 0.25).
+Unlike the power spectrum case, the bispectrum plots differ from each
+other, particularly the angle of `v`’s bispectrum at frequency pair
+(0.1, 0.25) is nearly 0 while `w`’s is far from 0.
 
-Next, we would like to see if quadratic phase coupling (QPC) can be
-detected from samples as a significantly non-zero values of bicoherence.
-With rhosa’s `bicoherence` function estimating (magnitude-squared)
-bicoherence is as easy as in the bispectrum case:
+Next, we would like to see if any quadratic phase coupling (QPC) can be
+detected from samples by identifying significant non-zero values of
+bicoherence. With rhosa’s `bicoherence` function, estimating
+(magnitude-squared) bicoherence is as easy as in the bispectrum case:
 
 ``` r
 bc_v <- bicoherence(m_v, window_function = hamming_window)
@@ -4612,7 +4614,8 @@ plot_bicoherence <- function(bc) {
 }
 ```
 
-Frequency pairs of red points indicate QPC adequately.
+Frequency pairs of red points in the following plots indicate the
+existence of QPC adequately.
 
 ``` r
 plot_bicoherence(bc_v)
