@@ -47,7 +47,7 @@
     }
 }
 
-## Return a data fram of frequency pairs in the 3rd region of Fig. 1 (a) in Lii and
+## Return a data frame of frequency pairs in the 3rd region of Fig. 1 (a) in Lii and
 ## Helland (1981). Like .generate_4th_quadrant(), the resulting x2 is positive, yet
 ## represents a negative frequency of the same absolute value.
 ##
