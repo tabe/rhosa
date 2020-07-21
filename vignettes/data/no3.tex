@@ -1,0 +1,13 @@
+% -*- mode: latex; fill-column: 80; -*-
+\documentclass[tikz]{standalone}
+\begin{document}
+\pgfmathsetseed{3}
+\begin{tikzpicture}[domain=0:10,samples=300]
+\draw plot (\x,{random())});
+\end{tikzpicture}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

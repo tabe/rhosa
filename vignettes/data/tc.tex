@@ -1,0 +1,32 @@
+% -*- mode: latex; fill-column: 80; -*-
+\documentclass[tikz,convert={outext=.png,size=400}]{standalone}
+\usetikzlibrary{decorations,positioning}
+\begin{document}
+\begin{tikzpicture}
+\node[draw,circle] (M) at (0,0) {$*$};
+\node[draw,above left=1cm and 1cm of M] (C1) {$C_1$};
+\node[draw,below left=1cm and 1cm of M] (C2) {$C_2$};
+\node[draw,right=1cm of M] (C3) {$C_3$};
+\node[above=0.3cm of C1] (I1) {\includegraphics[width=1.5cm]{tri.pdf}};
+\node[above=0.3cm of C2] (I2) {\includegraphics[width=1.5cm]{rec.pdf}};
+\node[above=0.3cm of C3] (I3) {\includegraphics[width=1.5cm]{cos.pdf}};
+\node[below=0.3cm of C1] (N1) {\includegraphics[width=1.5cm]{no1.pdf}};
+\node[below=0.3cm of C2] (N2) {\includegraphics[width=1.5cm]{no2.pdf}};
+\node[below=0.3cm of C3] (N3) {\includegraphics[width=1.5cm]{no3.pdf}};
+
+\draw[->] (C1) -| (M);
+\draw[->] (C2) -| (M);
+\draw[->] (M) -- (C3);
+\draw[->] (I1) -- (C1);
+\draw[->] (I2) -- (C2);
+\draw[->] (I3) -- (C3);
+\draw[->,decorate] (N1) -- (C1);
+\draw[->,decorate] (N2) -- (C2);
+\draw[->,decorate] (N3) -- (C3);
+\end{tikzpicture}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

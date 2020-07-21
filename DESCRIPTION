@@ -1,7 +1,7 @@
 Package: rhosa
 Title: Higher-order spectral analysis in R
-Date: 2020-02-07
-Version: 0.0.2.9001
+Date: 2020-07-21
+Version: 0.0.2.9002
 Authors@R: 
     person(given = "Takeshi",
            family = "Abe",
@@ -15,9 +15,11 @@ Encoding: UTF-8
 LazyData: true
 URL: https://github.com/tabe/rhosa
 BugReports: https://github.com/tabe/rhosa/issues
-RoxygenNote: 7.1.0
-Suggests: 
+RoxygenNote: 7.1.1
+Suggests:
+    ggplot2,
     knitr,
+    rgl,
     rmarkdown,
     testthat (>= 2.1.0)
 VignetteBuilder: knitr
