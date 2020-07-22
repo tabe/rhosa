@@ -12,6 +12,4 @@ r:
 addons:
   apt:
     packages:
-    - libgdal-dev
     - libglu1-mesa-dev
-    - libproj-dev
