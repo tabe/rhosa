@@ -1,8 +1,17 @@
 version: ~> 1.0
 
+dist: bionic
+
 language: r
 
 r:
   - oldrel
   - release
   - devel
+
+addons:
+  apt:
+    packages:
+    - libgdal-dev
+    - libglu1-mesa-dev
+    - libproj-dev
