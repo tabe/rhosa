@@ -1,15 +1,14 @@
 Package: rhosa
 Title: Higher-order spectral analysis in R
-Date: 2020-07-21
-Version: 0.0.2.9002
+Date: 2020-07-28
+Version: 0.0.2.9003
 Authors@R: 
     person(given = "Takeshi",
            family = "Abe",
            role = c("aut", "cre"),
            email = "tabe@fixedpoint.jp",
            comment = c(ORCID = "0000-0002-7074-4561"))
-Description: A package for analyzing and estimating higher-order spectra or
-    polyspectra of time series, such as bispectrum and bicoherence.
+Description: A package for analyzing and estimating higher-order spectra or polyspectra of time series, such as bispectrum and bicoherence.
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true

@@ -60,7 +60,7 @@ $$
 \varphi_6 = \varphi_4 + \varphi_5.
 $$
 
-Note that the trigonometric identities says
+Note that the trigonometric identities implies
 
 $$\cos(\lambda_6 t + \varphi_6)
     = \cos((\lambda_4 + \lambda_5) t + (\varphi_4 + \varphi_5))
@@ -71,7 +71,7 @@ so $\cos(\lambda_6 t + \varphi_6)$ is positively correlated with
 the product of $\cos(\lambda_4 t + \varphi_4)$ and $\cos(\lambda_5 t + \varphi_5)$.
 But $\cos(\lambda_3 t + \varphi_3)$ is not correlated with the product of
 $\cos(\lambda_1 t + \varphi_1)$ and $\cos(\lambda_2 t + \varphi_2)$ in general
-as the phase $\varphi_3$ is random.
+as the phase $\varphi_3$ is randomly assigned.
 
 Once $\varphi_i$s are chosen, $x_1(t)$ is a periodic function of $t$.
 So it turns out that $x_1$ is a (strictly) stationary stochastic process.
@@ -116,12 +116,12 @@ bc1 <- bicoherence(m1)
 
 ... and define an R function to plot the heat map of the estimated bicoherence:
 
-```{r sec1_heatmap_bc1, fig.cap = "x1's estimated bicoherence", fig.height = 4}
+```{r sec1_heatmap_bc1, fig.cap = "`x1`'s estimated bicoherence.", fig.height = 4}
 library(ggplot2)
 
 heatmap_bicoherence <- function(bc) {
     ggplot(bc) +
-        geom_point(aes(f1, f2, colour = msbc), alpha = 0.5, size = 1) +
+        geom_point(aes(f1, f2, colour = value), alpha = 0.5, size = 1) +
         scale_alpha(guide = "none")
 }
 
@@ -135,9 +135,9 @@ Note that the highest peak is at the bifrequency $(\frac{\lambda_5}{2 \pi},
 
 Another example of QPC consists of three channels, which accept series of
 periodic input signals and suffer from Gaussian noises. From a couple of the
-channels, say $C_1$ and $C_2$, we observe the summation of input and noises
-as their output. On the other hand the last channel, called $C_3$, adds
-$C_1$'s output multiplied by $C_2$'s to its own input and noise.
+channels, say $C_1$ and $C_2$, we observe the summation of input and noises as
+their output. On the other hand the last channel, called $C_3$, adds $C_1$'s
+output multiplied by $C_2$'s to its own input and noise.
 
 The following block diagram shows the skeleton of our three-channel model.
 <figure>
@@ -147,12 +147,12 @@ The following block diagram shows the skeleton of our three-channel model.
 
 Here, assume that $C_1$'s input is a triangle wave of a fixed frequency with
 varying initial phases. A rectangle wave of another frequency for $C_2$'s input.
-A cosine curve of yet another frequency for $C_3$'s input.
+A cosinusoidal curve of yet another frequency for $C_3$'s input.
 Running the following code simulates the model.
 
 ```{r tc}
-Fcoef1 <- 0.9
-Fcoef2 <- 0.6
+Fcoef1 <- 1.2
+Fcoef2 <- 0.7
 Fcoef3 <- 0.8
 
 i1 <- function(x, p) {2 * asin(sin(Fcoef1 * x + p))}
@@ -167,7 +167,8 @@ tc <- function(k) {
     function(x) {
         c1 <- i1(x, ps[1]) + rnorm(length(x), mean = 0, sd = 1)
         c2 <- i2(x, ps[2]) + rnorm(length(x), mean = 0, sd = 1)
-        c3 <- i3(x, ps[3]) + rnorm(length(x), mean = 0, sd = 1) + Qcoef * c1 * c2
+        c3 <- Qcoef * c1 * c2 +
+            i3(x, ps[3]) + rnorm(length(x), mean = 0, sd = 1)
         data.frame(c1, c2, c3)
     }
 }
@@ -195,6 +196,11 @@ d1 <- c1_data_frame(y1)
 d2 <- c2_data_frame(y1)
 d3 <- c3_data_frame(y1)
 ```
+
+That is, we obtain 100 series of data with 256 points. To be specific,
+$C_1$'s triangle wave has cycle $\frac{2 \pi}{1.2}$, the cycle of $C_2$'s
+rectangle wave is $\frac{2 \pi}{0.7}$, and the one of $C_3$'s cosinusoidal wave
+is $\frac{2 \pi}{0.8}$.
 
 $C_1$'s output looks like:
 
@@ -228,28 +234,47 @@ spectrum(d2)
 spectrum(d3)
 ```
 
-Now we calculate the estimated cross-bicoherence of $C_1$, $C_2$, and $C_3$
-by `cross_bicoherence`:
+It is expected that $C_3$'s bicoherence shows no outstanding pair of frequencies
+as $C_3$ does not have any big component of frequency $\frac{1.2}{2 \pi}$ nor
+$\frac{0.7}{2 \pi}$, but of frequency $\frac{0.8}{2 \pi}$ and $\frac{1.2+0.7}{2
+\pi}$ only:
 
-```{r sec2_cb1}
-cb1 <- cross_bicoherence(d1, d2, d3)
+```{r sec2_heatmap_bc3, fig.cap = "`d3`'s estimated bicoherence.", fig.height = 4}
+bc3 <- bicoherence(d3)
+heatmap_bicoherence(bc3)
 ```
 
-... and define an R function to plot the heat map of the results:
+Now we calculate the estimated cross-bicoherence between $C_1$, $C_2$, and $C_3$
+by `cross_bicoherence`, and plot the heat map of the results:
 
-```{r sec2_heatmap_cb1, fig.cap = "x1's estimated bicoherence", fig.height = 4}
+```{r sec2_heatmap_cb123, fig.cap = "The estimated cross-bicoherence between C1, C2, and C3.", fig.height = 4}
+cb123 <- cross_bicoherence(d1, d2, d3)
+
 heatmap_cross_bicoherence <- function(cb) {
     ggplot(cb) +
         geom_point(aes(f1, f2, colour = value), alpha = 0.5, size = 1) +
         scale_alpha(guide = "none")
 }
 
-heatmap_cross_bicoherence(cb1)
+heatmap_cross_bicoherence(cb123)
 ```
 
-Notice the high values around bifrequencies $(\frac{0.9}{2 \pi}, \frac{0.6}{2 \pi})$
-and $(\frac{0.9}{2 \pi}, -\frac{0.6}{2 \pi})$, which are approximately $(0.143,
-0.095)$ and $(0.143, -0.095)$, respectively.
+Notice the high values around bifrequencies $(\frac{1.2}{2 \pi}, \frac{0.7}{2 \pi})$
+and $(\frac{1.2}{2 \pi}, -\frac{0.7}{2 \pi})$, which are approximately $(0.191,
+0.111)$ and $(0.191, -0.111)$, respectively. It means that the QPC in the model
+is correctly identified.
+
+How about changing the order of cross-bicoherence's arguments?
+Let's estimate the one between $C_3$, $C_1$, and $C_2$:
+
+```{r sec2_heatmap_cb312, fig.cap = "The estimated cross-bicoherencde between C3, C1, and C2.", fig.height = 4}
+cb312 <- cross_bicoherence(d3, d1, d2)
+heatmap_cross_bicoherence(cb312)
+```
+
+Now the pairs of frequencies $(\frac{1.2-0.7}{2 \pi}, -\frac{1.2}{2 \pi})$
+and $(\frac{1.2+0.7}{2 \pi}, -\frac{1.2}{2 \pi})$ are in highlights, which are
+approximately $(0.080, -0.191)$ and $(0.302, -0.191)$, respectively.
 
 # When and why existing QPC is not apparent from the estimated cross-bicoherence
 
@@ -260,7 +285,7 @@ problem.
 The most straightforward reason of invisible QPC is the weakness of the
 coupling strength. It is reproducible by taking a small `Qcoef` in our model.
 
-```{r sec3_weak_coupling, fig.cap = "The case of weak coupling", fig.height = 4}
+```{r sec3_weak_coupling, fig.cap = "The case of weak coupling.", fig.height = 4}
 Qcoef <- 0.01
 
 y2 <- sample_tc()
@@ -273,7 +298,7 @@ outside of the region sufficiently sampled. The following example demonstrates
 that the `f1` of the bifrequency almost equals to the Nyquist frequency. If
 `Fcoef1` exceeds $\pi$, it will be no longer identifiable.
 
-```{r sec3_too_high_frequency, fig.cap = "The case of nearly-Nyquist frequency of `f1`", fig.height = 4}
+```{r sec3_too_high_frequency, fig.cap = "The case of nearly-Nyquist frequency of `f1`.", fig.height = 4}
 Fcoef1 <- pi - 0.1
 Fcoef2 <- 2.3
 Fcoef3 <- 1.5
@@ -288,9 +313,9 @@ Last but not least, undersampling also ends up with missing QPC. If the number o
 samples `N2` is too small, we cannot distinguish the coupling bifrequency from
 the others.
 
-```{r sec3_undersampling, fig.cap = "The case of insufficient sample", fig.height = 4}
-Fcoef1 <- 0.9
-Fcoef2 <- 0.6
+```{r sec3_undersampling, fig.cap = "The case of insufficient sample.", fig.height = 4}
+Fcoef1 <- 1.2
+Fcoef2 <- 0.7
 Fcoef3 <- 0.8
 Qcoef <- 0.3
 N2 <- 10
@@ -307,10 +332,10 @@ we have demonstrated that rhosa's `bicoherence` and `cross_bicoherence` can
 suggest the bifrequencies of potential QPC. Although some assumptions on the
 time series, e.g. stationarity, must be satisfied for precise estimation,
 there is no additional cost except for the computing time if the first-order
-spectral analysis has been adopted already. The rhosa's functions lower the
-barrier preventing from applying bispectrum analysis to time series for
-exploratory purpose. Considering appropriate generative models helps
-interpretation of the result obtained from the analysis.
+spectral analysis has been adopted already. The API lowers the barrier preventing
+from applying the bispectral analysis to time series for an exploratory
+purpose. Considering appropriate generative models helps interpretation of the
+result obtained from the analysis.
 
 # References
 

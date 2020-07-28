@@ -30,6 +30,20 @@
     do.call(rbind, Map(function(x, u) data.frame(x1 = x, x2 = 0:u), xs, ymax(xs)))
 }
 
+## Return the window function of given name
+##
+## @param name The name of a window function.
+## @return the function.
+.named_window_function <- function(name) {
+    if (identical(name, "hamming"))
+        return(.hamming_window)
+    if (identical(name, "hann"))
+        return(.hann_window)
+    if (identical(name, "blackman"))
+        return(.blackman_window)
+    stop(sprintf("%s: no such function in rhosa", name))
+}
+
 ## Build a taper function
 ##
 ## @param h A window function, or NULL for no tapering.
@@ -39,7 +53,8 @@
     if (is.null(h)) {
         identity
     } else {
-        function(x) sapply(1:V, function(v) h(v / (V + 1)) * x[v])
+        f <- .named_window_function(h)
+        function(x) sapply(1:V, function(v) f(v / (V + 1)) * x[v])
     }
 }
 
@@ -65,7 +80,8 @@
     if (is.null(window_function)) {
         1
     } else {
-        a <- stats::integrate(function(x) window_function(x)^k, 0, 1)
+        f <- .named_window_function(window_function)
+        a <- stats::integrate(function(x) f(x)^k, 0, 1)
         a$value
     }
 }
@@ -96,7 +112,7 @@
 #'
 #' @param data Given time series, as a data frame or matrix with which columns
 #' correspond to sampled stretches.
-#' @param window_function A window function for tapering. Defaults to
+#' @param window_function A window function's name for tapering. Defaults to
 #' \code{NULL} ("no tapering").
 #'
 #' @return A data frame including the following columns:
@@ -111,6 +127,9 @@
 #' The estimated bispectrum at each frequency pair.
 #' }
 #' }
+#'
+#' Currently the following window functions are available: Hamming window ("hamming"),
+#' Hann window ("hann"), and Blackman window ("blackman").
 #'
 #' @references
 #' [1] Brillinger, D.R. and Irizarry, R.A.
@@ -139,7 +158,7 @@ bispectrum <- function(data, window_function = NULL) {
 
 #' Estimate bicoherence from given time series data.
 #'
-#' Estimate (magnitude-squared) bicoherence from given real- or complex-valued
+#' Estimate magnitude-squared bicoherence from given real- or complex-valued
 #' time series data.
 #'
 #' @inheritParams bispectrum
@@ -156,8 +175,8 @@ bispectrum <- function(data, window_function = NULL) {
 #' \item{f2:}{
 #' The second elements of frequency pairs.
 #' }
-#' \item{msbc:}{
-#' The estimate of (magnitude-squared) bicoherence at the respective frequency
+#' \item{value:}{
+#' The estimate of magnitude-squared bicoherence at the respective frequency
 #' pair.
 #' }
 #' \item{p_value:}{
@@ -230,7 +249,7 @@ bicoherence <- function(data,
 
     data.frame(f1 = bs$f1,
                f2 = bs$f2,
-               msbc = msbc,
+               value = msbc,
                p_value = p_value,
                significance = (p_value < alpha))
 }

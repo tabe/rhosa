@@ -168,18 +168,18 @@ With rhosa's `bicoherence` function, estimating (magnitude-squared) bicoherence
 is as easy as in the bispectrum case:
 
 ```{r bc}
-bc_v <- bicoherence(m_v, window_function = hamming_window)
-bc_w <- bicoherence(m_w, window_function = hamming_window)
+bc_v <- bicoherence(m_v, window_function = 'hamming')
+bc_w <- bicoherence(m_w, window_function = 'hamming')
 ```
 
 Note that in the above code the additional argument to `bicoherence` is given for
-tapering with Hamming window function (`hamming_window` function in rhosa).
+tapering with Hamming window function.
 
 ```{r}
 plot_bicoherence <- function(bc) {
     with(bc, {
         open3d()
-        plot3d(f1, f2, msbc, col = ifelse(significance, "red", "blue"))
+        plot3d(f1, f2, value, col = ifelse(significance, "red", "blue"))
         grid3d(c("x", "y+", "z"))
     })
 }

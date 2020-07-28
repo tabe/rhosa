@@ -95,7 +95,7 @@ test_that("bispectrum of series with the opposite sign", {
 
 assert_bicoherence_result <- function(x) {
     expect_s3_class(x, "data.frame")
-    expect_named(x, c("f1", "f2", "msbc", "p_value", "significance"))
+    expect_named(x, c("f1", "f2", "value", "p_value", "significance"))
 }
 
 test_that("bicoherence accepts a vector", {

@@ -2,8 +2,5 @@
 
 export(bicoherence)
 export(bispectrum)
-export(blackman_window)
 export(cross_bicoherence)
 export(cross_bispectrum)
-export(hamming_window)
-export(hann_window)

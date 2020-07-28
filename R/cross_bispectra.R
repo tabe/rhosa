@@ -170,7 +170,7 @@ cross_bispectrum <- function(x, y, z = y,
 #' The second elements of frequency pairs.
 #' }
 #' \item{value:}{
-#' The estimated value of (magnitude-squared) cross-bicoherence at the respective
+#' The estimated value of magnitude-squared cross-bicoherence at the respective
 #' frequency pair.
 #' }
 #' }

@@ -10,7 +10,7 @@ bicoherence(data, window_function = NULL, alpha = 0.05, p_adjust_method = "BH")
 \item{data}{Given time series, as a data frame or matrix with which columns
 correspond to sampled stretches.}
 
-\item{window_function}{A window function for tapering. Defaults to
+\item{window_function}{A window function's name for tapering. Defaults to
 \code{NULL} ("no tapering").}
 
 \item{alpha}{The alpha level of the hypotesis test. Defaults to 0.05.}
@@ -28,8 +28,8 @@ The first elements of frequency pairs.
 \item{f2:}{
 The second elements of frequency pairs.
 }
-\item{msbc:}{
-The estimate of (magnitude-squared) bicoherence at the respective frequency
+\item{value:}{
+The estimate of magnitude-squared bicoherence at the respective frequency
 pair.
 }
 \item{p_value:}{
@@ -43,7 +43,7 @@ with given \code{alpha} level.
 }
 }
 \description{
-Estimate (magnitude-squared) bicoherence from given real- or complex-valued
+Estimate magnitude-squared bicoherence from given real- or complex-valued
 time series data.
 }
 \references{

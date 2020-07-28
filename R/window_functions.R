@@ -27,9 +27,9 @@
 #'
 #' @param x A real number in [0, 1].
 #' @return A real number in [0, 1].
-#' @seealso \code{\link{hann_window}} and \code{\link{blackman_window}}.
-#' @export
-hamming_window <- function(x) {
+#' @seealso \code{\link{.hann_window}} and \code{\link{.blackman_window}}.
+#' @keywords internal
+.hamming_window <- function(x) {
     25/46 - (21/46) * cos(2 * pi * x)
 }
 
@@ -40,11 +40,11 @@ hamming_window <- function(x) {
 #' 0.5 * (1 - cos(2 * pi * x)).
 #' }
 #'
-#' @inheritParams hamming_window
-#' @inherit hamming_window return
-#' @seealso \code{\link{hamming_window}} and \code{\link{blackman_window}}.
-#' @export
-hann_window <- function(x) {
+#' @inheritParams .hamming_window
+#' @inherit .hamming_window return
+#' @seealso \code{\link{.hamming_window}} and \code{\link{.blackman_window}}.
+#' @keywords internal
+.hann_window <- function(x) {
     ## sin(pi * x)^2
     0.5 * (1 - cos(2 * pi * x))
 }
@@ -56,10 +56,10 @@ hann_window <- function(x) {
 #' 0.42 - 0.5 * cos(2 * pi * x) + 0.08 * cos(4 * pi * x).
 #' }
 #'
-#' @inheritParams hamming_window
-#' @inherit hamming_window return
-#' @seealso \code{\link{hamming_window}} and \code{\link{hann_window}}.
-#' @export
-blackman_window <- function(x) {
+#' @inheritParams .hamming_window
+#' @inherit .hamming_window return
+#' @seealso \code{\link{.hamming_window}} and \code{\link{.hann_window}}.
+#' @keywords internal
+.blackman_window <- function(x) {
     0.42 - 0.5 * cos(2 * pi * x) + 0.08 * cos(4 * pi * x)
 }

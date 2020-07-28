@@ -28,7 +28,7 @@ The first elements of frequency pairs.
 The second elements of frequency pairs.
 }
 \item{value:}{
-The estimated value of (magnitude-squared) cross-bicoherence at the respective
+The estimated value of magnitude-squared cross-bicoherence at the respective
 frequency pair.
 }
 }
