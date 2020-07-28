@@ -115,6 +115,9 @@
 #' @param window_function A window function's name for tapering. Defaults to
 #' \code{NULL} ("no tapering").
 #'
+#' Currently the following window functions are available: Hamming window ("hamming"),
+#' Hann window ("hann"), and Blackman window ("blackman").
+#'
 #' @return A data frame including the following columns:
 #' \describe{
 #' \item{f1:}{
@@ -127,9 +130,6 @@
 #' The estimated bispectrum at each frequency pair.
 #' }
 #' }
-#'
-#' Currently the following window functions are available: Hamming window ("hamming"),
-#' Hann window ("hann"), and Blackman window ("blackman").
 #'
 #' @references
 #' [1] Brillinger, D.R. and Irizarry, R.A.
