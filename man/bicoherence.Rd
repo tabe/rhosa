@@ -11,7 +11,10 @@ bicoherence(data, window_function = NULL, alpha = 0.05, p_adjust_method = "BH")
 correspond to sampled stretches.}
 
 \item{window_function}{A window function's name for tapering. Defaults to
-\code{NULL} ("no tapering").}
+\code{NULL} ("no tapering").
+
+Currently the following window functions are available: Hamming window ("hamming"),
+Hann window ("hann"), and Blackman window ("blackman").}
 
 \item{alpha}{The alpha level of the hypotesis test. Defaults to 0.05.}
 

@@ -11,7 +11,10 @@ bispectrum(data, window_function = NULL)
 correspond to sampled stretches.}
 
 \item{window_function}{A window function's name for tapering. Defaults to
-\code{NULL} ("no tapering").}
+\code{NULL} ("no tapering").
+
+Currently the following window functions are available: Hamming window ("hamming"),
+Hann window ("hann"), and Blackman window ("blackman").}
 }
 \value{
 A data frame including the following columns:
@@ -26,9 +29,6 @@ The second elements of frequency pairs.
 The estimated bispectrum at each frequency pair.
 }
 }
-
-Currently the following window functions are available: Hamming window ("hamming"),
-Hann window ("hann"), and Blackman window ("blackman").
 }
 \description{
 Estimate bispectrum from real- or complex-valued time series data.

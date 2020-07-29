@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# rhosa – Higher-order spectral analysis in R
+# rhosa – Higher-Order Spectral Analysis in R
 
 <!-- badges: start -->
 
