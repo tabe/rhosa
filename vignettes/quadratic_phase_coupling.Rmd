@@ -96,10 +96,31 @@ N1 <- 100
 m1 <- do.call(cbind, Map(observe, Map(x1, seq_len(N1))))
 ```
 
+Each column of matrix `m1` in the last line represents a realization of `x1`.
+That is, we have taken 100 realizations of $x_1$ as `m1`.
+Let's plot them:
+
+```{r sec1_samples, fig.cap = "100 realizations of `x1`."}
+ith_sample <- function(i) {
+    data.frame(i = i, t = seq_len(256), v = m1[,i])
+}
+r1 <- do.call(rbind, Map(ith_sample, seq_len(100)))
+
+library(ggplot2)
+
+ggplot(r1) +
+    geom_line(aes(t, v)) +
+    facet_wrap(vars(i)) +
+    theme(axis.title.y = element_blank(),
+          axis.text.y = element_blank(),
+          strip.background = element_blank(),
+          strip.text.x = element_blank())
+```
+
 A realization of $x_1$ looks like:
 
-```{r sec1_X1, fig.cap = "The first 256 observations of `x1`."}
-plot(m1[,1], type = "l", ylim = c(-5, 5), xlab = "t", ylab = "value")
+```{r sec1_X1, fig.cap = "The 256 time points in the first realization of `x1`."}
+plot(m1[,1], type = "l", ylim = c(-5, 5), xlab = "t", ylab = "")
 ```
 
 Its spectrum estimation shows peaks at six frequencies as expected:
@@ -117,8 +138,6 @@ bc1 <- bicoherence(m1)
 ... and define an R function to plot the heat map of the estimated bicoherence:
 
 ```{r sec1_heatmap_bc1, fig.cap = "`x1`'s estimated bicoherence.", fig.height = 4}
-library(ggplot2)
-
 heatmap_bicoherence <- function(bc) {
     ggplot(bc) +
         geom_point(aes(f1, f2, colour = value), alpha = 0.5, size = 1) +
@@ -128,8 +147,9 @@ heatmap_bicoherence <- function(bc) {
 heatmap_bicoherence(bc1)
 ```
 
-Note that the highest peak is at the bifrequency $(\frac{\lambda_5}{2 \pi},
-\frac{\lambda_4}{2 \pi})$, which is approximately $(0.127, 0.095)$.
+Note that the highest peak is at the bifrequency
+$(f_1, f_2) = (\frac{\lambda_5}{2 \pi}, \frac{\lambda_4}{2 \pi}) \approx (0.127,
+0.095)$.
 
 # A three-channel model of quadratic signal processing
 
@@ -205,19 +225,19 @@ is $\frac{2 \pi}{0.8}$.
 $C_1$'s output looks like:
 
 ```{r sec2_d1, fig.cap = "A sample path of `d1`.", fig.height = 4}
-plot(d1[,1], type = "l", ylim = c(-5, 5), xlab = "t", ylab = "value")
+plot(d1[,1], type = "l", ylim = c(-5, 5), xlab = "t", ylab = "")
 ```
 
 And $C_2$'s output:
 
 ```{r sec2_d2, fig.cap = "A sample path of `d2`.", fig.height = 4}
-plot(d2[,1], type = "l", ylim = c(-5, 5), xlab = "t", ylab = "value")
+plot(d2[,1], type = "l", ylim = c(-5, 5), xlab = "t", ylab = "")
 ```
 
 $C_3$'s output:
 
 ```{r sec2_d3, fig.cap = "A sample path of `d3`.", fig.height = 4}
-plot(d3[,1], type = "l", ylim = c(-5, 5), xlab = "t", ylab = "value")
+plot(d3[,1], type = "l", ylim = c(-5, 5), xlab = "t", ylab = "")
 ```
 
 Their spectrum estimation show significant peaks at expected frequencies:
@@ -259,10 +279,10 @@ heatmap_cross_bicoherence <- function(cb) {
 heatmap_cross_bicoherence(cb123)
 ```
 
-Notice the high values around bifrequencies $(\frac{1.2}{2 \pi}, \frac{0.7}{2 \pi})$
-and $(\frac{1.2}{2 \pi}, -\frac{0.7}{2 \pi})$, which are approximately $(0.191,
-0.111)$ and $(0.191, -0.111)$, respectively. It means that the QPC in the model
-is correctly identified.
+Notice the high values around bifrequencies
+$(f_1, f_2) = (\frac{1.2}{2 \pi}, \frac{0.7}{2 \pi}) \approx (0.191, 0.111)$ and
+$(f_1, f_2) = (\frac{1.2}{2 \pi}, -\frac{0.7}{2 \pi}) \approx (0.191, -0.111)$.
+It means that the QPC in the model is correctly identified.
 
 How about changing the order of cross-bicoherence's arguments?
 Let's estimate the one between $C_3$, $C_1$, and $C_2$:
@@ -272,9 +292,11 @@ cb312 <- cross_bicoherence(d3, d1, d2)
 heatmap_cross_bicoherence(cb312)
 ```
 
-Now the pairs of frequencies $(\frac{1.2-0.7}{2 \pi}, -\frac{1.2}{2 \pi})$
-and $(\frac{1.2+0.7}{2 \pi}, -\frac{1.2}{2 \pi})$ are in highlights, which are
-approximately $(0.080, -0.191)$ and $(0.302, -0.191)$, respectively.
+Now the pairs of frequencies
+$(f_1, f_2) = (\frac{1.2-0.7}{2 \pi}, -\frac{1.2}{2 \pi}) \approx (0.080,
+-0.191)$ and
+$(f_1, f_2) = (\frac{1.2+0.7}{2 \pi}, -\frac{1.2}{2 \pi}) \approx (0.302,
+-0.191)$ are in highlights.
 
 # When and why existing QPC is not apparent from the estimated cross-bicoherence
 
