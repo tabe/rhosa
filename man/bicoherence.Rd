@@ -49,8 +49,18 @@ with given \code{alpha} level.
 Estimate magnitude-squared bicoherence from given real- or complex-valued
 time series data.
 }
+\examples{
+f <- function(x) {
+    sin(2 * x) + sin(3 * x + 1) + sin(2 * x) * sin(3 * x + 1)
+}
+v <- sapply(seq_len(1280), f) + rnorm(1280)
+m <- matrix(v, nrow = 128)
+bicoherence(m)
+bicoherence(m, "hamming")
+
+}
 \references{
-[1] Brillinger, D.R. and Irizarry, R.A.
-    "An investigation of the second- and higher-order spectra of music."
-    Signal Processing, Volume 65, Issue 2, 30 March 1998, Pages 161-179.
+Brillinger, D.R. and Irizarry, R.A.
+"An investigation of the second- and higher-order spectra of music."
+Signal Processing, Volume 65, Issue 2, 30 March 1998, Pages 161-179.
 }

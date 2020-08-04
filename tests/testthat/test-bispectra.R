@@ -150,4 +150,3 @@ test_that("bicoherence of a time-series of length 1", {
     bs <- expect_silent(bicoherence(stats::ts(c(0.777))))
     assert_bicoherence_result(bs)
 })
-

@@ -1,6 +1,6 @@
 ## -*- mode: R -*-
 ##
-## Copyright (C) 2019 Takeshi Abe <tabe@fixedpoint.jp>
+## Copyright (C) 2019-2020 Takeshi Abe <tabe@fixedpoint.jp>
 ##
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -132,9 +132,18 @@
 #' }
 #'
 #' @references
-#' [1] Brillinger, D.R. and Irizarry, R.A.
-#'     "An investigation of the second- and higher-order spectra of music."
-#'     Signal Processing, Volume 65, Issue 2, 30 March 1998, Pages 161-179.
+#' Brillinger, D.R. and Irizarry, R.A.
+#' "An investigation of the second- and higher-order spectra of music."
+#' Signal Processing, Volume 65, Issue 2, 30 March 1998, Pages 161-179.
+#'
+#' @examples
+#' f <- function(x) {
+#'     sin(2 * x) + sin(3 * x + 1) + sin(2 * x) * sin(3 * x + 1)
+#' }
+#' v <- sapply(seq_len(1280), f) + rnorm(1280)
+#' m <- matrix(v, nrow = 128)
+#' bispectrum(m)
+#' bispectrum(m, "hamming")
 #'
 #' @export
 bispectrum <- function(data, window_function = NULL) {
@@ -191,6 +200,15 @@ bispectrum <- function(data, window_function = NULL) {
 #'
 #' @inherit bispectrum details references
 #'
+#' @examples
+#' f <- function(x) {
+#'     sin(2 * x) + sin(3 * x + 1) + sin(2 * x) * sin(3 * x + 1)
+#' }
+#' v <- sapply(seq_len(1280), f) + rnorm(1280)
+#' m <- matrix(v, nrow = 128)
+#' bicoherence(m)
+#' bicoherence(m, "hamming")
+#'
 #' @export
 bicoherence <- function(data,
                         window_function = NULL,
@@ -238,7 +256,7 @@ bicoherence <- function(data,
     msbc <- abs(bs$value)^2 / denom(tr$x1, tr$x2)
 
     ## The mean of approximated distribution under null hypothesis that
-    ## bicoherence = 0 is said to be exponential.
+    ## bicoherence = 0 is said to be exponentially distributed.
     ## See (A.11) in [1]'s Appendix A.
     m <- h6 * V / ((h3^2) * L * (2*pi))
 

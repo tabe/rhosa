@@ -36,6 +36,22 @@ frequency pair.
 \description{
 Estimate cross-coherence from three real-valued time series data.
 }
+\examples{
+x <- seq_len(1280)
+v1 <- sapply(x, function(x) {sin(2 * x)}) + rnorm(1280)
+v2 <- sapply(x, function(x) {sin(3 * x + 1)}) + rnorm(1280)
+v3 <- sapply(x, function(x) {cos(2 * x) * cos(3 * x + 1)}) + rnorm(1280)
+m1 <- matrix(v1, nrow = 128)
+m2 <- matrix(v2, nrow = 128)
+m3 <- matrix(v3, nrow = 128)
+cross_bicoherence(m1, m2, m3)
+
+d1 <- stats::mvfft(m1)
+d2 <- stats::mvfft(m2)
+d3 <- stats::mvfft(m3)
+cross_bicoherence(d1, d2, d3, dft_given = TRUE)
+
+}
 \references{
 K. S. Lii and K. N. Helland. 1981. Cross-Bispectrum Computation and Variance Estimation. ACM Trans. Math. Softw. 7, 3 (September 1981), 284–294. DOI:https://doi.org/10.1145/355958.355961
 }
