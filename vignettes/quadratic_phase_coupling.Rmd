@@ -140,7 +140,8 @@ bc1 <- bicoherence(m1)
 ```{r sec1_heatmap_bc1, fig.cap = "`x1`'s estimated bicoherence.", fig.height = 4}
 heatmap_bicoherence <- function(bc) {
     ggplot(bc) +
-        geom_point(aes(f1, f2, colour = value), alpha = 0.5, size = 1) +
+        geom_raster(aes(f1, f2, fill = value)) +
+        coord_fixed() +
         scale_alpha(guide = "none")
 }
 
@@ -267,12 +268,13 @@ heatmap_bicoherence(bc3)
 Now we calculate the estimated cross-bicoherence between $C_1$, $C_2$, and $C_3$
 by `cross_bicoherence`, and plot the heat map of the results:
 
-```{r sec2_heatmap_cb123, fig.cap = "The estimated cross-bicoherence between C1, C2, and C3.", fig.height = 4}
+```{r sec2_heatmap_cb123, fig.cap = "The estimated cross-bicoherence between C1, C2, and C3.", fig.height = 6}
 cb123 <- cross_bicoherence(d1, d2, d3)
 
 heatmap_cross_bicoherence <- function(cb) {
     ggplot(cb) +
-        geom_point(aes(f1, f2, colour = value), alpha = 0.5, size = 1) +
+        geom_raster(aes(f1, f2, fill = value)) +
+        coord_fixed() +
         scale_alpha(guide = "none")
 }
 
@@ -287,7 +289,7 @@ It means that the QPC in the model is correctly identified.
 How about changing the order of cross-bicoherence's arguments?
 Let's estimate the one between $C_3$, $C_1$, and $C_2$:
 
-```{r sec2_heatmap_cb312, fig.cap = "The estimated cross-bicoherencde between C3, C1, and C2.", fig.height = 4}
+```{r sec2_heatmap_cb312, fig.cap = "The estimated cross-bicoherencde between C3, C1, and C2.", fig.height = 6}
 cb312 <- cross_bicoherence(d3, d1, d2)
 heatmap_cross_bicoherence(cb312)
 ```
@@ -307,7 +309,7 @@ problem.
 The most straightforward reason of invisible QPC is the weakness of the
 coupling strength. It is reproducible by taking a small `Qcoef` in our model.
 
-```{r sec3_weak_coupling, fig.cap = "The case of weak coupling.", fig.height = 4}
+```{r sec3_weak_coupling, fig.cap = "The case of weak coupling.", fig.height = 6}
 Qcoef <- 0.01
 
 y2 <- sample_tc()
@@ -320,7 +322,7 @@ outside of the region sufficiently sampled. The following example demonstrates
 that the `f1` of the bifrequency almost equals to the Nyquist frequency. If
 `Fcoef1` exceeds $\pi$, it will be no longer identifiable.
 
-```{r sec3_too_high_frequency, fig.cap = "The case of nearly-Nyquist frequency of `f1`.", fig.height = 4}
+```{r sec3_too_high_frequency, fig.cap = "The case of nearly-Nyquist frequency of `f1`.", fig.height = 6}
 Fcoef1 <- pi - 0.1
 Fcoef2 <- 2.3
 Fcoef3 <- 1.5
@@ -335,7 +337,7 @@ Last but not least, undersampling also ends up with missing QPC. If the number o
 samples `N2` is too small, we cannot distinguish the coupling bifrequency from
 the others.
 
-```{r sec3_undersampling, fig.cap = "The case of insufficient sample.", fig.height = 4}
+```{r sec3_undersampling, fig.cap = "The case of insufficient sample.", fig.height = 6}
 Fcoef1 <- 1.2
 Fcoef2 <- 0.7
 Fcoef3 <- 0.8

@@ -1,7 +1,7 @@
 Package: rhosa
 Title: Higher-Order Spectral Analysis
-Date: 2020-08-04
-Version: 0.1.0
+Date: 2020-08-12
+Version: 0.1.0.9000
 Authors@R: 
     person(given = "Takeshi",
            family = "Abe",
