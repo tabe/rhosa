@@ -16,6 +16,8 @@ knitr::opts_chunk$set(
 # rhosa -- Higher-Order Spectral Analysis in R
 
 <!-- badges: start -->
+[![Build Status](https://travis-ci.com/tabe/rhosa.svg?branch=master)](https://travis-ci.com/tabe/rhosa)
+[![CRAN status](https://www.r-pkg.org/badges/version/rhosa)](https://CRAN.R-project.org/package=rhosa)
 <!-- badges: end -->
 
 This package aims to provide functions to analyze and estimate higher-order

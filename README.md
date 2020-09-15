@@ -5,6 +5,10 @@
 
 <!-- badges: start -->
 
+[![Build
+Status](https://travis-ci.com/tabe/rhosa.svg?branch=master)](https://travis-ci.com/tabe/rhosa)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/rhosa)](https://CRAN.R-project.org/package=rhosa)
 <!-- badges: end -->
 
 This package aims to provide functions to analyze and estimate
@@ -118,6 +122,7 @@ m_v <- do.call(cbind, Map(function(d) {d$v}, x))
 m_w <- do.call(cbind, Map(function(d) {d$w}, x))
 
 library(rhosa)
+#> Welcome to rhosa
 
 bc_v <- bicoherence(m_v, window_function = 'hamming')
 bc_w <- bicoherence(m_w, window_function = 'hamming')
