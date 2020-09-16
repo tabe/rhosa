@@ -91,6 +91,15 @@ test_that("bispectrum of series with the opposite sign", {
     expect_equal(bs1$value, -bs2$value)
 })
 
+test_that("bispectrum returns the same result regardless of mc", {
+    v <- runif(64, min = -1, max = 1)
+    bs1 <- expect_silent(bispectrum(v))
+    bs2 <- expect_silent(bispectrum(v, mc = TRUE, mc_cores = 2))
+    assert_bispectrum_result(bs1)
+    assert_bispectrum_result(bs2)
+    expect_equal(bs1, bs2)
+})
+
 ## Tests for bicoherence()
 
 assert_bicoherence_result <- function(x) {
@@ -149,4 +158,13 @@ test_that("bicoherence rejects data of length 0", {
 test_that("bicoherence of a time-series of length 1", {
     bs <- expect_silent(bicoherence(stats::ts(c(0.777))))
     assert_bicoherence_result(bs)
+})
+
+test_that("bicoherence returns the same result regardless of mc", {
+    v <- runif(64, min = -1, max = 1)
+    bc1 <- expect_silent(bicoherence(v))
+    bc2 <- expect_silent(bicoherence(v, mc = TRUE, mc_cores = 2))
+    assert_bicoherence_result(bc1)
+    assert_bicoherence_result(bc2)
+    expect_equal(bc1, bc2)
 })

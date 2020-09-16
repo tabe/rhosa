@@ -4,7 +4,12 @@
 \alias{bispectrum}
 \title{Estimate bispectrum from time series data.}
 \usage{
-bispectrum(data, window_function = NULL)
+bispectrum(
+  data,
+  window_function = NULL,
+  mc = FALSE,
+  mc_cores = getOption("mc.cores", 2L)
+)
 }
 \arguments{
 \item{data}{Given time series, as a data frame or matrix with which columns
@@ -15,6 +20,12 @@ correspond to sampled stretches.}
 
 Currently the following window functions are available: Hamming window ("hamming"),
 Hann window ("hann"), and Blackman window ("blackman").}
+
+\item{mc}{If \code{TRUE}, calculation is done in parallel computation.
+Defaults to \code{FALSE}.}
+
+\item{mc_cores}{The number of cores in use for parallel computation, passed
+\code{\link[parallel]{mcmapply}()} etc. as \code{mc.cores}.}
 }
 \value{
 A data frame including the following columns:
@@ -41,6 +52,7 @@ v <- sapply(seq_len(1280), f) + rnorm(1280)
 m <- matrix(v, nrow = 128)
 bispectrum(m)
 bispectrum(m, "hamming")
+bispectrum(m, "blackman", mc = TRUE)
 
 }
 \references{

@@ -103,6 +103,17 @@ test_that("cross_bispectrum of a time-series of length 1", {
     assert_cross_bispectrum_result(bs)
 })
 
+test_that("cross_bispectrum returns the same result regardless of mc", {
+    x <- runif(64, min = -1, max = 1)
+    y <- runif(64, min = -1, max = 1)
+    z <- runif(64, min = -1, max = 1)
+    xbs1 <- expect_silent(cross_bispectrum(x, y, z))
+    xbs2 <- expect_silent(cross_bispectrum(x, y, z, mc = TRUE, mc_cores = 2))
+    assert_cross_bispectrum_result(xbs1)
+    assert_cross_bispectrum_result(xbs2)
+    expect_equal(xbs1, xbs2)
+})
+
 ## Tests for cross_bicoherence()
 
 assert_cross_bicoherence_result <- function(x) {
@@ -189,4 +200,15 @@ test_that("cross_bicoherence rejects data of length 0", {
 test_that("cross_bicoherence of a time-series of length 1", {
     bs <- expect_silent(cross_bicoherence(stats::ts(c(0.777)), stats::ts(c(0.888)), stats::ts(c(0.999))))
     assert_cross_bicoherence_result(bs)
+})
+
+test_that("cross_bicoherence returns the same result regardless of mc", {
+    x <- runif(64, min = -1, max = 1)
+    y <- runif(64, min = -1, max = 1)
+    z <- runif(64, min = -1, max = 1)
+    xbc1 <- expect_silent(cross_bicoherence(x, y, z))
+    xbc2 <- expect_silent(cross_bicoherence(x, y, z, mc = TRUE, mc_cores = 2))
+    assert_cross_bicoherence_result(xbc1)
+    assert_cross_bicoherence_result(xbc2)
+    expect_equal(xbc1, xbc2)
 })

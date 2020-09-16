@@ -86,7 +86,8 @@
     }
 }
 
-.bispectrum <- function(L, V, h3, d, tr) {
+.bispectrum <- function(L, V, h3, d, tr,
+                        mc, mc_cores) {
     ## 3rd order periodogram of the l-th stretch
     ## Again, l is 1-based.
     ## See equation (A.5) in [1]'s Appendix A.
@@ -101,9 +102,14 @@
         mean(sapply(1:L, function(l) I3(lambda, mu, l)))
     }
 
+    value <- if (mc)
+                 parallel::mcmapply(f3, tr$x1, tr$x2, SIMPLIFY = TRUE, mc.cores = mc_cores)
+             else
+                 mapply(f3, tr$x1, tr$x2, SIMPLIFY = TRUE)
+
     data.frame(f1 = tr$x1 / V,
                f2 = tr$x2 / V,
-               value = mapply(f3, tr$x1, tr$x2, SIMPLIFY = TRUE))
+               value = value)
 }
 
 #' Estimate bispectrum from time series data.
@@ -117,6 +123,11 @@
 #'
 #' Currently the following window functions are available: Hamming window ("hamming"),
 #' Hann window ("hann"), and Blackman window ("blackman").
+#'
+#' @param mc If \code{TRUE}, calculation is done in parallel computation.
+#' Defaults to \code{FALSE}.
+#' @param mc_cores The number of cores in use for parallel computation, passed
+#' \code{\link[parallel]{mcmapply}()} etc. as \code{mc.cores}.
 #'
 #' @return A data frame including the following columns:
 #' \describe{
@@ -144,9 +155,12 @@
 #' m <- matrix(v, nrow = 128)
 #' bispectrum(m)
 #' bispectrum(m, "hamming")
+#' bispectrum(m, "blackman", mc = TRUE)
 #'
 #' @export
-bispectrum <- function(data, window_function = NULL) {
+bispectrum <- function(data, window_function = NULL,
+                       mc = FALSE,
+                       mc_cores = getOption("mc.cores", 2L)) {
 
     ## Make data a matrix
     if (!is.matrix(data))
@@ -162,7 +176,7 @@ bispectrum <- function(data, window_function = NULL) {
     h3 <- .h(3, window_function)
     d <- .tdft(data, window_function, V)
     tr <- .generate_triangle(V)
-    .bispectrum(L, V, h3, d, tr)
+    .bispectrum(L, V, h3, d, tr, mc, mc_cores)
 }
 
 #' Estimate bicoherence from given time series data.
@@ -208,10 +222,13 @@ bispectrum <- function(data, window_function = NULL) {
 #' m <- matrix(v, nrow = 128)
 #' bicoherence(m)
 #' bicoherence(m, "hamming")
+#' bicoherence(m, "hann", mc = TRUE)
 #'
 #' @export
 bicoherence <- function(data,
                         window_function = NULL,
+                        mc = FALSE,
+                        mc_cores = getOption("mc.cores", 2L),
                         alpha = 0.05,
                         p_adjust_method = "BH") {
 
@@ -252,7 +269,7 @@ bicoherence <- function(data,
     }
 
     tr <- .generate_triangle(V)
-    bs <- .bispectrum(L, V, h3, d, tr)
+    bs <- .bispectrum(L, V, h3, d, tr, mc, mc_cores)
     msbc <- abs(bs$value)^2 / denom(tr$x1, tr$x2)
 
     ## The mean of approximated distribution under null hypothesis that

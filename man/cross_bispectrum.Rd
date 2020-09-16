@@ -4,7 +4,14 @@
 \alias{cross_bispectrum}
 \title{Estimate cross-bispectrum from time series data.}
 \usage{
-cross_bispectrum(x, y, z = y, dft_given = FALSE)
+cross_bispectrum(
+  x,
+  y,
+  z = y,
+  dft_given = FALSE,
+  mc = FALSE,
+  mc_cores = getOption("mc.cores", 2L)
+)
 }
 \arguments{
 \item{x}{Given 1st time series, as a data frame or matrix with which columns
@@ -17,6 +24,12 @@ If omitted, \code{y} is used instead.}
 
 \item{dft_given}{If TRUE, suppose that DFTs is given instead of time series
 data and skip the fast fourier transform. Default: FALSE.}
+
+\item{mc}{If \code{TRUE}, calculation is done in parallel computation.
+Defaults to \code{FALSE}.}
+
+\item{mc_cores}{The number of cores in use for parallel computation, passed
+\code{\link[parallel]{mclapply}()} etc. as \code{mc.cores}.}
 }
 \value{
 A data frame including the following columns:
@@ -49,6 +62,8 @@ d1 <- stats::mvfft(m1)
 d2 <- stats::mvfft(m2)
 d3 <- stats::mvfft(m3)
 cross_bispectrum(d1, d2, d3, dft_given = TRUE)
+
+cross_bispectrum(d1, d2, d3, dft_given = TRUE, mc = TRUE)
 
 }
 \references{

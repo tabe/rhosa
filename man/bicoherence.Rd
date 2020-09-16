@@ -4,7 +4,14 @@
 \alias{bicoherence}
 \title{Estimate bicoherence from given time series data.}
 \usage{
-bicoherence(data, window_function = NULL, alpha = 0.05, p_adjust_method = "BH")
+bicoherence(
+  data,
+  window_function = NULL,
+  mc = FALSE,
+  mc_cores = getOption("mc.cores", 2L),
+  alpha = 0.05,
+  p_adjust_method = "BH"
+)
 }
 \arguments{
 \item{data}{Given time series, as a data frame or matrix with which columns
@@ -15,6 +22,12 @@ correspond to sampled stretches.}
 
 Currently the following window functions are available: Hamming window ("hamming"),
 Hann window ("hann"), and Blackman window ("blackman").}
+
+\item{mc}{If \code{TRUE}, calculation is done in parallel computation.
+Defaults to \code{FALSE}.}
+
+\item{mc_cores}{The number of cores in use for parallel computation, passed
+\code{\link[parallel]{mcmapply}()} etc. as \code{mc.cores}.}
 
 \item{alpha}{The alpha level of the hypotesis test. Defaults to 0.05.}
 
@@ -57,6 +70,7 @@ v <- sapply(seq_len(1280), f) + rnorm(1280)
 m <- matrix(v, nrow = 128)
 bicoherence(m)
 bicoherence(m, "hamming")
+bicoherence(m, "hann", mc = TRUE)
 
 }
 \references{
