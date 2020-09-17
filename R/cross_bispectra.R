@@ -20,7 +20,7 @@
 ##
 ## @param n the number of samples
 .generate_1st_quadrant <- function(n) {
-    stopifnot(length(n) == 1, n >= 1)
+    .assert(length(n) == 1 && n >= 1)
 
     if (n < 4) {
         data.frame(x1 = integer(), x2 = integer())
@@ -37,7 +37,7 @@
 ##
 ## @inheritParams .generate_1st_quadrant
 .generate_4th_quadrant <- function(n) {
-    stopifnot(length(n) == 1, n >= 1)
+    .assert(length(n) == 1 && n >= 1)
 
     if (n < 4) {
         data.frame(x1 = integer(), x2 = integer())

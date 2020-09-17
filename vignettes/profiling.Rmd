@@ -1,0 +1,52 @@
+---
+title: "Profiling rhosa's functions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Profiling rhosa's functions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(rhosa)
+```
+
+This document provides some examples of profiling R code using rhosa to estimate polyspectra.
+Readers will find some hints for understanding the performance of rhosa's functions.
+
+```{r}
+profile_by_Rprof <- function(...) {
+    f <- tempfile()
+    Rprof(f)
+    (...)
+    Rprof(NULL)
+    s <- summaryRprof(f)
+    unlink(f)
+    s
+}
+```
+
+```{r}
+x <- three_channel_model(cos, sin, function(r) {r - floor(r)})
+```
+
+# `bicoherence`
+
+```{r}
+s <- profile_by_Rprof(bicoherence(x$c1))
+s$by.self
+```
+
+# `cross_bicoherence`
+
+```{r}
+s <- profile_by_Rprof(with(x, cross_bicoherence(c1, c2, c3)))
+s$by.self
+```

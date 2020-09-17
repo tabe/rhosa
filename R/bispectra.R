@@ -23,7 +23,7 @@
 ## cycles/sample, and the normalized sample rate is 1.
 
 .generate_triangle <- function(n) {
-    stopifnot(length(n) == 1, n >= 1)
+    .assert(length(n) == 1 && n >= 1)
 
     ymax <- function(x) ifelse(x <= n / 3, x, n - 2 * x)
     xs <- 0:(n %/% 2)
@@ -54,7 +54,7 @@
         identity
     } else {
         f <- .named_window_function(h)
-        function(x) sapply(1:V, function(v) f(v / (V + 1)) * x[v])
+        function(x) vapply(1:V, function(v) f(v / (V + 1)) * x[v], complex(1))
     }
 }
 
@@ -71,7 +71,7 @@
     tdft <- stats::mvfft(tapered_data)
     function(x, l) {
         v <- x + 1
-        stopifnot(1 <= v, v <= V)
+        .assert(1 <= v && v <= V)
         tdft[v, l]
     }
 }
@@ -91,15 +91,16 @@
     ## 3rd order periodogram of the l-th stretch
     ## Again, l is 1-based.
     ## See equation (A.5) in [1]'s Appendix A.
+    I3_denom <- ((2*pi)^2) * V * h3
     I3 <- function(lambda, mu, l) {
         r <- d(lambda, l) * d(mu, l) * Conj(d(lambda + mu, l))
-        r / (((2*pi)^2) * V * h3)
+        r / I3_denom
     }
 
     ## The estimate of the bispectrum
     ## See equation (A.6) in [1]'s Appendix A.
     f3 <- function(lambda, mu) {
-        mean(sapply(1:L, function(l) I3(lambda, mu, l)))
+        mean(vapply(1:L, function(l) I3(lambda, mu, l), complex(1)))
     }
 
     value <- if (mc)
@@ -252,19 +253,20 @@ bicoherence <- function(data,
     ## 2nd order periodogram of the l-th strech
     ## Again, l is 1-based.
     ## The same as equation (5) in [1], but with adjusting taper's effect.
+    I2_denom <- 2*pi * V * h2
     I2 <- function(f, l) {
-        abs(d(f, l))^2 / (2*pi * V * h2)
+        abs(d(f, l))^2 / I2_denom
     }
 
     ## Estimate the power spectrum.
     ## See [1]'s definition of the estimated power spectrum.
     f2 <- function(f) {
-        stopifnot(length(f) == 1)
-        mean(sapply(1:L, function(l) I2(f, l)))
+        .assert(length(f) == 1)
+        mean(vapply(1:L, function(l) I2(f, l), numeric(1)))
     }
 
     denom <- function(x, y) {
-        stopifnot(length(x) == length(y))
+        .assert(length(x) == length(y))
         mapply(function(fx, fy) {f2(fx) * f2(fy) * f2(fx + fy)}, x, y)
     }
 
