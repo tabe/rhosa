@@ -40,9 +40,8 @@
 #' @param noise_sd The standard deviation of a Gaussian noise perturbing
 #' samples.
 #'
-#' @return A list, which element are named \code{c1}, \code{c2}, and \code{c3},
-#' of data frames. Each element has \code{num_observations} columns and
-#' \code{num_samples} rows.
+#' @return A list of three data frames: \code{c1}, \code{c2}, and \code{c3}.
+#' Each element has \code{num_observations} columns and \code{num_samples} rows.
 #'
 #' @examples
 #' x <- three_channel_model(cos, sin, function(r) {r - floor(r)})
