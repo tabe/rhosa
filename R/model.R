@@ -44,7 +44,11 @@
 #' Each element has \code{num_observations} columns and \code{num_samples} rows.
 #'
 #' @examples
-#' x <- three_channel_model(cos, sin, function(r) {r - floor(r)})
+#' sawtooth <- function(r) {
+#'     x <- r/(2*pi)
+#'     x - floor(x)
+#' }
+#' data <- three_channel_model(cos, sin, sawtooth)
 #'
 #' @export
 three_channel_model <- function(f1, f2, f3,
@@ -55,9 +59,9 @@ three_channel_model <- function(f1, f2, f3,
                                 Fcoef3 = 0.8,
                                 Qcoef = 0.3,
                                 noise_sd = 1) {
-    i1 <- function(x, p) {f1(Fcoef1 * x + p)}
-    i2 <- function(x, p) {f2(Fcoef2 * x + p)}
-    i3 <- function(x, p) {f3(Fcoef3 * x + p)}
+    i1 <- function(x, p) {f1(Fcoef1 * (2 * pi * x) + p)}
+    i2 <- function(x, p) {f2(Fcoef2 * (2 * pi * x) + p)}
+    i3 <- function(x, p) {f3(Fcoef3 * (2 * pi * x) + p)}
 
     tc <- function(k) {
         set.seed(k)

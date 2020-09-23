@@ -44,9 +44,8 @@ third channel.}
 samples.}
 }
 \value{
-A list, which element are named \code{c1}, \code{c2}, and \code{c3},
-of data frames. Each element has \code{num_observations} columns and
-\code{num_samples} rows.
+A list of three data frames: \code{c1}, \code{c2}, and \code{c3}.
+Each element has \code{num_observations} columns and \code{num_samples} rows.
 }
 \description{
 Simulate observations by a three-channel model of quadratic phase coupling.
@@ -58,6 +57,10 @@ The phase is chosen at random from \eqn{[0, 2 \pi]}{[0, 2 * pi]} for each
 observation and each channel.
 }
 \examples{
-x <- three_channel_model(cos, sin, function(r) {r - floor(r)})
+sawtooth <- function(r) {
+    x <- r/(2*pi)
+    x - floor(x)
+}
+data <- three_channel_model(cos, sin, sawtooth)
 
 }
