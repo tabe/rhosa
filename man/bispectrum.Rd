@@ -25,7 +25,7 @@ Hann window ("hann"), and Blackman window ("blackman").}
 Defaults to \code{FALSE}.}
 
 \item{mc_cores}{The number of cores in use for parallel computation, passed
-\code{\link[parallel]{mcmapply}()} etc. as \code{mc.cores}.}
+\code{\link[parallel:mclapply]{parallel::mcmapply}()} etc. as \code{mc.cores}.}
 }
 \value{
 A data frame including the following columns:

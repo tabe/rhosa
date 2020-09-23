@@ -29,7 +29,7 @@ data and skip the fast fourier transform. Default: FALSE.}
 Defaults to \code{FALSE}.}
 
 \item{mc_cores}{The number of cores in use for parallel computation, passed
-\code{\link[parallel]{mclapply}()} etc. as \code{mc.cores}.}
+\code{\link[parallel:mclapply]{parallel::mclapply}()} etc. as \code{mc.cores}.}
 }
 \value{
 A data frame including the following columns:

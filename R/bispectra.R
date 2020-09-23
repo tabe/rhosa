@@ -128,7 +128,7 @@
 #' @param mc If \code{TRUE}, calculation is done in parallel computation.
 #' Defaults to \code{FALSE}.
 #' @param mc_cores The number of cores in use for parallel computation, passed
-#' \code{\link[parallel]{mcmapply}()} etc. as \code{mc.cores}.
+#' \code{\link[parallel:mclapply]{parallel::mcmapply}()} etc. as \code{mc.cores}.
 #'
 #' @return A data frame including the following columns:
 #' \describe{
