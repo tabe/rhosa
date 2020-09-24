@@ -10,10 +10,7 @@ three_channel_model(
   f3,
   num_samples = 256,
   num_observations = 100,
-  Fcoef1 = 1.2,
-  Fcoef2 = 0.7,
-  Fcoef3 = 0.8,
-  Qcoef = 0.3,
+  input_freq = c(1.2, 0.7, 0.8),
   noise_sd = 1
 )
 }
@@ -28,20 +25,14 @@ three_channel_model(
 
 \item{num_observations}{The number of observations.}
 
-\item{Fcoef1}{The scaling factor of the period for a given periodic function
-of the first channel.}
+\item{input_freq}{The scaling factor for the frequencies of input periodic functions.
+It can be a scalar or a vector of length three.
+If a scalar is given, the same frequency is used for all of inputs.}
 
-\item{Fcoef2}{The scaling factor of the period for a given periodic function
-of the second channel.}
-
-\item{Fcoef3}{The scaling factor of the period for a given periodic function
-of the third channel.}
-
-\item{Qcoef}{The coefficient applied to the multiplicative component of the
-third channel.}
-
-\item{noise_sd}{The standard deviation of a Gaussian noise perturbing
-samples.}
+\item{noise_sd}{The standard deviation of a Gaussian noise perturbing samples.
+It can be a scalar or a vector of length three.
+If a scalar is given, the same value is used for all of noises.
+Giving 0 is possible and specifies no noise.}
 }
 \value{
 A list of three data frames: \code{c1}, \code{c2}, and \code{c3}.
@@ -59,8 +50,10 @@ observation and each channel.
 \examples{
 sawtooth <- function(r) {
     x <- r/(2*pi)
-    x - floor(x)
+    x - floor(x) - 0.5
 }
-data <- three_channel_model(cos, sin, sawtooth)
+data <- three_channel_model(cos, sin, sawtooth,
+                            input_freq = c(0.2, 0.3, 0.4),
+                            noise_sd = 0.9)
 
 }

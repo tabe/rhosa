@@ -29,16 +29,13 @@
 #' @param f3 A function of period \eqn{2 \pi}{2 * pi} for the third channel.
 #' @param num_samples The number of sampling points in an observation.
 #' @param num_observations The number of observations.
-#' @param Fcoef1 The scaling factor of the period for a given periodic function
-#' of the first channel.
-#' @param Fcoef2 The scaling factor of the period for a given periodic function
-#' of the second channel.
-#' @param Fcoef3 The scaling factor of the period for a given periodic function
-#' of the third channel.
-#' @param Qcoef The coefficient applied to the multiplicative component of the
-#' third channel.
-#' @param noise_sd The standard deviation of a Gaussian noise perturbing
-#' samples.
+#' @param input_freq The scaling factor for the frequencies of input periodic functions.
+#' It can be a scalar or a vector of length three.
+#' If a scalar is given, the same frequency is used for all of inputs.
+#' @param noise_sd The standard deviation of a Gaussian noise perturbing samples.
+#' It can be a scalar or a vector of length three.
+#' If a scalar is given, the same value is used for all of noises.
+#' Giving 0 is possible and specifies no noise.
 #'
 #' @return A list of three data frames: \code{c1}, \code{c2}, and \code{c3}.
 #' Each element has \code{num_observations} columns and \code{num_samples} rows.
@@ -46,31 +43,35 @@
 #' @examples
 #' sawtooth <- function(r) {
 #'     x <- r/(2*pi)
-#'     x - floor(x)
+#'     x - floor(x) - 0.5
 #' }
-#' data <- three_channel_model(cos, sin, sawtooth)
+#' data <- three_channel_model(cos, sin, sawtooth,
+#'                             input_freq = c(0.2, 0.3, 0.4),
+#'                             noise_sd = 0.9)
 #'
 #' @export
 three_channel_model <- function(f1, f2, f3,
                                 num_samples = 256,
                                 num_observations = 100,
-                                Fcoef1 = 1.2,
-                                Fcoef2 = 0.7,
-                                Fcoef3 = 0.8,
-                                Qcoef = 0.3,
+                                input_freq = c(1.2, 0.7, 0.8),
                                 noise_sd = 1) {
-    i1 <- function(x, p) {f1(Fcoef1 * (2 * pi * x) + p)}
-    i2 <- function(x, p) {f2(Fcoef2 * (2 * pi * x) + p)}
-    i3 <- function(x, p) {f3(Fcoef3 * (2 * pi * x) + p)}
+    if (length(input_freq) == 1)
+        input_freq <- rep_len(input_freq, 3)
+    if (length(noise_sd) == 1)
+        noise_sd <- rep_len(noise_sd, 3)
+
+    i1 <- function(x, p) {f1(input_freq[1] * (2 * pi * x) + p)}
+    i2 <- function(x, p) {f2(input_freq[2] * (2 * pi * x) + p)}
+    i3 <- function(x, p) {f3(input_freq[3] * (2 * pi * x) + p)}
 
     tc <- function(k) {
         set.seed(k)
-        ps <- stats::runif(3, min = 0, max = 2*pi)
+        ps <- stats::runif(3, min = 0, max = 2 * pi)
         function(x) {
-            c1 <- i1(x, ps[1]) + stats::rnorm(length(x), mean = 0, sd = noise_sd)
-            c2 <- i2(x, ps[2]) + stats::rnorm(length(x), mean = 0, sd = noise_sd)
-            c3 <- i3(x, ps[3]) + stats::rnorm(length(x), mean = 0, sd = noise_sd) +
-                Qcoef * c1 * c2
+            n <- length(x)
+            c1 <- i1(x, ps[1]) + stats::rnorm(n, mean = 0, sd = noise_sd[1])
+            c2 <- i2(x, ps[2]) + stats::rnorm(n, mean = 0, sd = noise_sd[2])
+            c3 <- i3(x, ps[3]) + stats::rnorm(n, mean = 0, sd = noise_sd[3]) + c1 * c2
             data.frame(c1, c2, c3)
         }
     }
