@@ -37,8 +37,11 @@
 #' If a scalar is given, the same value is used for all of noises.
 #' Giving 0 is possible and specifies no noise.
 #'
-#' @return A list of three data frames: \code{c1}, \code{c2}, and \code{c3}.
+#' @return A list of six data frames:
+#' \code{i1}, \code{i2}, \code{i3}, \code{o1}, \code{o2}, and \code{o3}.
 #' Each element has \code{num_observations} columns and \code{num_samples} rows.
+#' \code{i1}, \code{i2}, and \code{i3} are observations of input signals;
+#' \code{o1}, \code{o2}, and \code{o3} are of output.
 #'
 #' @examples
 #' sawtooth <- function(r) {
@@ -60,19 +63,22 @@ three_channel_model <- function(f1, f2, f3,
     if (length(noise_sd) == 1)
         noise_sd <- rep_len(noise_sd, 3)
 
-    i1 <- function(x, p) {f1(input_freq[1] * (2 * pi * x) + p)}
-    i2 <- function(x, p) {f2(input_freq[2] * (2 * pi * x) + p)}
-    i3 <- function(x, p) {f3(input_freq[3] * (2 * pi * x) + p)}
+    g1 <- function(x, p) {f1(input_freq[1] * (2 * pi * x) + p)}
+    g2 <- function(x, p) {f2(input_freq[2] * (2 * pi * x) + p)}
+    g3 <- function(x, p) {f3(input_freq[3] * (2 * pi * x) + p)}
 
     tc <- function(k) {
         set.seed(k)
         ps <- stats::runif(3, min = 0, max = 2 * pi)
         function(x) {
             n <- length(x)
-            c1 <- i1(x, ps[1]) + stats::rnorm(n, mean = 0, sd = noise_sd[1])
-            c2 <- i2(x, ps[2]) + stats::rnorm(n, mean = 0, sd = noise_sd[2])
-            c3 <- i3(x, ps[3]) + stats::rnorm(n, mean = 0, sd = noise_sd[3]) + c1 * c2
-            data.frame(c1, c2, c3)
+            i1 <- g1(x, ps[1])
+            i2 <- g2(x, ps[2])
+            i3 <- g3(x, ps[3])
+            o1 <- i1 + stats::rnorm(n, mean = 0, sd = noise_sd[1])
+            o2 <- i2 + stats::rnorm(n, mean = 0, sd = noise_sd[2])
+            o3 <- i3 + stats::rnorm(n, mean = 0, sd = noise_sd[3]) + o1 * o2
+            data.frame(i1, i2, i3, o1, o2, o3)
         }
     }
 
@@ -80,20 +86,15 @@ three_channel_model <- function(f1, f2, f3,
         Map(function(f) {f(seq_len(num_samples))}, Map(tc, seq_len(num_observations)))
     }
 
-    c1_data_frame <- function(y) {
-        do.call(cbind, Map(function(k) {y[[k]]$c1}, seq_len(num_observations)))
-    }
-
-    c2_data_frame <- function(y) {
-        do.call(cbind, Map(function(k) {y[[k]]$c2}, seq_len(num_observations)))
-    }
-
-    c3_data_frame <- function(y) {
-        do.call(cbind, Map(function(k) {y[[k]]$c3}, seq_len(num_observations)))
+    get_data_frame <- function(y, name) {
+        do.call(cbind, Map(function(k) {y[[k]][[name]]}, seq_len(num_observations)))
     }
 
     y <- sample_tc()
-    list(c1 = c1_data_frame(y),
-         c2 = c2_data_frame(y),
-         c3 = c3_data_frame(y))
+    list(i1 = get_data_frame(y, "i1"),
+         i2 = get_data_frame(y, "i2"),
+         i3 = get_data_frame(y, "i3"),
+         o1 = get_data_frame(y, "o1"),
+         o2 = get_data_frame(y, "o2"),
+         o3 = get_data_frame(y, "o3"))
 }

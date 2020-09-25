@@ -34,19 +34,23 @@ profile_by_Rprof <- function(...) {
 ```
 
 ```{r}
-x <- three_channel_model(cos, sin, function(r) {r - floor(r)})
+sawtooth <- function(r) {
+    q <- r/(2*pi)
+    q - floor(q) - 0.5
+}
+x <- three_channel_model(cos, sin, sawtooth)
 ```
 
 # `bicoherence`
 
 ```{r}
-s <- profile_by_Rprof(bicoherence(x$c1))
+s <- profile_by_Rprof(bicoherence(x$o1))
 s$by.self
 ```
 
 # `cross_bicoherence`
 
 ```{r}
-s <- profile_by_Rprof(with(x, cross_bicoherence(c1, c2, c3)))
+s <- profile_by_Rprof(with(x, cross_bicoherence(o1, o2, o3)))
 s$by.self
 ```

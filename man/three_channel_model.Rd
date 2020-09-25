@@ -35,8 +35,11 @@ If a scalar is given, the same value is used for all of noises.
 Giving 0 is possible and specifies no noise.}
 }
 \value{
-A list of three data frames: \code{c1}, \code{c2}, and \code{c3}.
+A list of six data frames:
+\code{i1}, \code{i2}, \code{i3}, \code{o1}, \code{o2}, and \code{o3}.
 Each element has \code{num_observations} columns and \code{num_samples} rows.
+\code{i1}, \code{i2}, and \code{i3} are observations of input signals;
+\code{o1}, \code{o2}, and \code{o3} are of output.
 }
 \description{
 Simulate observations by a three-channel model of quadratic phase coupling.
