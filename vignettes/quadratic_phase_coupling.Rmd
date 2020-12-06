@@ -354,7 +354,7 @@ heatmap_cross_bicoherence(cb4)
 Using numerical simulation of time series of stationary stochastic processes,
 we have demonstrated that rhosa's `bicoherence` and `cross_bicoherence` can
 suggest the bifrequencies of potential QPC. Although some assumptions on the
-time series, e.g. stationarity, must be satisfied for precise estimation,
+time series, e.g. stationarity, must be satisfied for accurate estimation,
 there is no additional cost except for the computing time if the first-order
 spectral analysis has been adopted already. The API lowers the barrier preventing
 from applying the bispectral analysis to time series for an exploratory
