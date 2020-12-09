@@ -213,7 +213,10 @@ cross_bispectrum <- function(x, y, z = y,
 #' }
 #' }
 #'
-#' @inherit cross_bispectrum details references
+#' @inherit cross_bispectrum details
+#'
+#' @references
+#' Kim, Y.C., Powers, E.J., 1979. Digital Bispectral Analysis and Its Applications to Nonlinear Wave Interactions. IEEE Trans. Plasma Sci. 7, 120–131. https://doi.org/10.1109/TPS.1979.4317207
 #'
 #' @examples
 #' x <- seq_len(1280)
@@ -267,8 +270,9 @@ cross_bicoherence <- function(x, y, z = y,
         f1 <- q1$x1[i] + 1
         f2 <- q1$x2[i] + 1
         f3 <- q1$x1[i] + q1$x2[i] + 1
-        tp <- dft_x[f1,] * dft_y[f2,] * Conj(dft_z[f3,])
-        abs(sum(tp)) / sum(abs(tp))
+        hp <- dft_x[f1,] * dft_y[f2,]
+        tp <- hp * Conj(dft_z[f3,])
+        abs(sum(tp))^2 / (sum(abs(hp)^2) * sum(abs(dft_z[f3,])^2))
     }
 
     v1 <- if (mc)
@@ -283,8 +287,9 @@ cross_bicoherence <- function(x, y, z = y,
             f1 <- r3$x1[i] + 1
             f2 <- r3$x2[i] + 1
             f3 <- r3$x1[i] - r3$x2[i] + 1
-            tp <- dft_x[f1,] * Conj(dft_y[f2,]) * Conj(dft_z[f3,])
-            abs(sum(tp)) / sum(abs(tp))
+            hp <- dft_x[f1,] * Conj(dft_y[f2,])
+            tp <- hp * Conj(dft_z[f3,])
+            abs(sum(tp))^2 / (sum(abs(hp)^2) * sum(abs(dft_z[f3,])^2))
         }
 
         v3 <- if (mc)
@@ -301,14 +306,15 @@ cross_bicoherence <- function(x, y, z = y,
         g4 <- function(i) {
             f1 <- q4$x1[i] + 1
             f2 <- q4$x2[i] + 1
+            hp <- dft_x[f1,] * Conj(dft_y[f2,])
             if (q4$x1[i] > q4$x2[i]) { # in the 3rd or 4th region
                 f3 <- q4$x1[i] - q4$x2[i] + 1
-                tp <- dft_x[f1,] * Conj(dft_y[f2,]) * Conj(dft_z[f3,])
-                abs(sum(tp)) / sum(abs(tp))
+                tp <- hp * Conj(dft_z[f3,])
+                abs(sum(tp))^2 / (sum(abs(hp)^2) * sum(abs(dft_z[f3,])^2))
             } else { # in the 5th or 6th region
                 f3 <- q4$x2[i] - q4$x1[i] + 1
-                tp <- dft_x[f1,] * Conj(dft_y[f2,]) * dft_z[f3,]
-                abs(sum(tp)) / sum(abs(tp))
+                tp <- hp * dft_z[f3,]
+                abs(sum(tp))^2 / (sum(abs(hp)^2) * sum(abs(dft_z[f3,])^2))
             }
         }
 
