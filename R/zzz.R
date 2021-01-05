@@ -1,6 +1,6 @@
 ## -*- mode: R -*-
 ##
-## Copyright (C) 2019 Takeshi Abe <tabe@fixedpoint.jp>
+## Copyright (C) 2019-2021 Takeshi Abe <tabe@fixedpoint.jp>
 ##
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -16,5 +16,6 @@
 ## along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 .onAttach <- function(libname, pkgname) {
-    packageStartupMessage("Welcome to rhosa")
+    if (interactive())
+        packageStartupMessage("Welcome to rhosa")
 }
