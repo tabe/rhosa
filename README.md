@@ -9,6 +9,7 @@
 Status](https://travis-ci.com/tabe/rhosa.svg?branch=master)](https://travis-ci.com/tabe/rhosa)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/rhosa)](https://CRAN.R-project.org/package=rhosa)
+[![R-CMD-check](https://github.com/tabe/rhosa/workflows/R-CMD-check/badge.svg)](https://github.com/tabe/rhosa/actions)
 <!-- badges: end -->
 
 This package aims to provide functions to analyze and estimate
@@ -77,17 +78,7 @@ with(data, {
 })
 ```
 
-<div class="figure">
-
-<img src="man/figures/README-ts-1.png" alt="v and w." width="50%" />
-
-<p class="caption">
-
-v and w.
-
-</p>
-
-</div>
+<img src="man/figures/README-ts-1.png" title="v and w." alt="v and w." width="50%" />
 
 It is noteworthy that the power spectrum densities of `v` and `w` are
 basically identical as shown in their spectral density estimation:
@@ -99,17 +90,7 @@ with(data, {
 })
 ```
 
-<div class="figure">
-
-<img src="man/figures/README-psd-1.png" alt="Spectral density estimation via periodograms." width="50%" /><img src="man/figures/README-psd-2.png" alt="Spectral density estimation via periodograms." width="50%" />
-
-<p class="caption">
-
-Spectral density estimation via periodograms.
-
-</p>
-
-</div>
+<img src="man/figures/README-psd-1.png" title="Spectral density estimation via periodograms." alt="Spectral density estimation via periodograms." width="50%" /><img src="man/figures/README-psd-2.png" title="Spectral density estimation via periodograms." alt="Spectral density estimation via periodograms." width="50%" />
 
 On the other hand, their bispectra are different. More specifically, we
 are going to see that their bicoherence at some pairs of frequencies are
@@ -122,7 +103,6 @@ m_v <- do.call(cbind, Map(function(d) {d$v}, x))
 m_w <- do.call(cbind, Map(function(d) {d$w}, x))
 
 library(rhosa)
-#> Welcome to rhosa
 
 bc_v <- bicoherence(m_v, window_function = 'hamming')
 bc_w <- bicoherence(m_w, window_function = 'hamming')
@@ -155,36 +135,16 @@ coupling, as expected:
 plot_bicoherence(bc_v)
 ```
 
-<div class="figure">
+<img src="man/figures/README-viz_bc_v-1.png" title="v's estimated magnitude-squared bicoherence." alt="v's estimated magnitude-squared bicoherence." width="50%" />
 
-<img src="man/figures/README-viz_bc_v-1.png" alt="v's estimated magnitude-squared bicoherence." width="50%" />
-
-<p class="caption">
-
-v’s estimated magnitude-squared bicoherence.
-
-</p>
-
-</div>
-
-In contrast, `bc_w` has no peaks at frequency pair `(f_1, f_2) =
-(0.35, 0.2)`, etc.:
+In contrast, `bc_w` has no peaks at frequency pair
+`(f_1, f_2) = (0.35, 0.2)`, etc.:
 
 ``` r
 plot_bicoherence(bc_w)
 ```
 
-<div class="figure">
-
-<img src="man/figures/README-viz_bc_w-1.png" alt="w's estimated magnitude-squared bicoherence." width="50%" />
-
-<p class="caption">
-
-w’s estimated magnitude-squared bicoherence.
-
-</p>
-
-</div>
+<img src="man/figures/README-viz_bc_w-1.png" title="w's estimated magnitude-squared bicoherence." alt="w's estimated magnitude-squared bicoherence." width="50%" />
 
 ## License
 

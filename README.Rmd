@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![Build Status](https://travis-ci.com/tabe/rhosa.svg?branch=master)](https://travis-ci.com/tabe/rhosa)
 [![CRAN status](https://www.r-pkg.org/badges/version/rhosa)](https://CRAN.R-project.org/package=rhosa)
+[![R-CMD-check](https://github.com/tabe/rhosa/workflows/R-CMD-check/badge.svg)](https://github.com/tabe/rhosa/actions)
 <!-- badges: end -->
 
 This package aims to provide functions to analyze and estimate higher-order
