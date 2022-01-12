@@ -14,7 +14,8 @@ status](https://www.r-pkg.org/badges/version/rhosa)](https://CRAN.R-project.org/
 
 This package aims to provide functions to analyze and estimate
 higher-order spectra or polyspectra of multivariate time series, such as
-bispectrum and bicoherence \[1\].
+bispectrum and bicoherence ([Brillinger and Irizarry
+1998](#ref-brillinger_investigation_1998)).
 
 ## Installation
 
@@ -36,10 +37,10 @@ remotes::install_github("tabe/rhosa")
 
 ## Example
 
-This is a simple example, based on the outline at Figure 1 of \[2\],
-which demonstrates how to use rhosa’s functions to find an obscure
-relationship between two frequencies in some time series imitated by a
-generative model.
+This is a simple example, based on the outline at Figure 1 of ([Villa
+and Tetko 2010](#ref-villa_cross-frequency_2010)), which demonstrates
+how to use rhosa’s functions to find an obscure relationship between two
+frequencies in some time series imitated by a generative model.
 
 With four cosinusoidal waves having arbitrarily different phases
 (`omega_a`, `omega_b`, `omega_c`, and `omega_d`), but sharing a couple
@@ -157,11 +158,23 @@ this project.
 
 ## References
 
-\[1\] Brillinger, D. R., & Irizarry, R. A. (1998). An investigation of
-the second- and higher-order spectra of music. Signal Processing, 65(2),
-161–179. <https://doi.org/10.1016/S0165-1684(97)00217-X>
+<div id="refs" class="references csl-bib-body hanging-indent">
 
-\[2\] Villa, A. E. P., & Tetko, I. V. (2010). Cross-frequency coupling
-in mesiotemporal EEG recordings of epileptic patients. Journal of
-Physiology-Paris, 104(3), 197–202.
-<https://doi.org/10.1016/j.jphysparis.2009.11.024>
+<div id="ref-brillinger_investigation_1998" class="csl-entry">
+
+Brillinger, D. R., and R. A. Irizarry. 1998. “An Investigation of the
+Second- and Higher-Order Spectra of Music.” *Signal Processing* 65 (2):
+161–79. <https://doi.org/10.1016/S0165-1684(97)00217-X>.
+
+</div>
+
+<div id="ref-villa_cross-frequency_2010" class="csl-entry">
+
+Villa, Alessandro E. P., and Igor V. Tetko. 2010. “Cross-Frequency
+Coupling in Mesiotemporal EEG Recordings of Epileptic Patients.”
+*Journal of Physiology-Paris*, Neural Coding, 104 (3): 197–202.
+<https://doi.org/10.1016/j.jphysparis.2009.11.024>.
+
+</div>
+
+</div>

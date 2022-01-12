@@ -1,5 +1,7 @@
 ---
 output: github_document
+bibliography: references.bib
+link-citations: true
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -23,7 +25,7 @@ knitr::opts_chunk$set(
 
 This package aims to provide functions to analyze and estimate higher-order
 spectra or polyspectra of multivariate time series, such as bispectrum and
-bicoherence [1].
+bicoherence [@brillinger_investigation_1998].
 
 ## Installation
 
@@ -43,7 +45,7 @@ remotes::install_github("tabe/rhosa")
 ```
 ## Example
 
-This is a simple example, based on the outline at Figure 1 of [2], which
+This is a simple example, based on the outline at Figure 1 of [@villa_cross-frequency_2010], which
 demonstrates how to use rhosa's functions to find an obscure relationship
 between two frequencies in some time series imitated by a generative model.
 
@@ -150,6 +152,3 @@ The author thanks Alessandro E. P. Villa for his generous support to this projec
 
 ## References
 
-[1] Brillinger, D. R., & Irizarry, R. A. (1998). An investigation of the second- and higher-order spectra of music. Signal Processing, 65(2), 161–179. https://doi.org/10.1016/S0165-1684(97)00217-X
-
-[2] Villa, A. E. P., & Tetko, I. V. (2010). Cross-frequency coupling in mesiotemporal EEG recordings of epileptic patients. Journal of Physiology-Paris, 104(3), 197–202. https://doi.org/10.1016/j.jphysparis.2009.11.024
