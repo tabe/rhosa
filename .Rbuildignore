@@ -3,7 +3,6 @@
 ^Meta$
 ^README\.Rmd$
 ^README\.html$
-^index\.html$
 ^vignettes/data/Makefile$
 ^vignettes/data/.*\.aux$
 ^vignettes/data/.*\.log$

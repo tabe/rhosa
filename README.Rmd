@@ -142,10 +142,6 @@ In contrast, `bc_w` has no peaks at frequency pair `(f_1, f_2) = (0.35, 0.2)`, e
 plot_bicoherence(bc_w)
 ```
 
-## License
-
-GPLv3
-
 ## Acknowledgement
 
 The author thanks Alessandro E. P. Villa for his generous support to this project.

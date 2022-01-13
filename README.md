@@ -147,10 +147,6 @@ plot_bicoherence(bc_w)
 
 <img src="man/figures/README-viz_bc_w-1.png" title="w's estimated magnitude-squared bicoherence." alt="w's estimated magnitude-squared bicoherence." width="50%" />
 
-## License
-
-GPLv3
-
 ## Acknowledgement
 
 The author thanks Alessandro E. P. Villa for his generous support to
