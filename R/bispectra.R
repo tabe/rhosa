@@ -154,9 +154,9 @@
 #' }
 #' v <- sapply(seq_len(1280), f) + rnorm(1280)
 #' m <- matrix(v, nrow = 128)
-#' bispectrum(m)
-#' bispectrum(m, "hamming")
-#' bispectrum(m, "blackman", mc = TRUE)
+#' bs1 <- bispectrum(m)
+#' bs2 <- bispectrum(m, "hamming")
+#' bs3 <- bispectrum(m, "blackman", mc = TRUE)
 #'
 #' @export
 bispectrum <- function(data, window_function = NULL,
@@ -221,9 +221,9 @@ bispectrum <- function(data, window_function = NULL,
 #' }
 #' v <- sapply(seq_len(1280), f) + rnorm(1280)
 #' m <- matrix(v, nrow = 128)
-#' bicoherence(m)
-#' bicoherence(m, "hamming")
-#' bicoherence(m, "hann", mc = TRUE)
+#' bc1 <- bicoherence(m)
+#' bc2 <- bicoherence(m, "hamming")
+#' bc3 <- bicoherence(m, "hann", mc = TRUE)
 #'
 #' @export
 bicoherence <- function(data,

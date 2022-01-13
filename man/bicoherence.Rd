@@ -68,9 +68,9 @@ f <- function(x) {
 }
 v <- sapply(seq_len(1280), f) + rnorm(1280)
 m <- matrix(v, nrow = 128)
-bicoherence(m)
-bicoherence(m, "hamming")
-bicoherence(m, "hann", mc = TRUE)
+bc1 <- bicoherence(m)
+bc2 <- bicoherence(m, "hamming")
+bc3 <- bicoherence(m, "hann", mc = TRUE)
 
 }
 \references{

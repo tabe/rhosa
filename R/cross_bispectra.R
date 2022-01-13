@@ -97,14 +97,14 @@
 #' m1 <- matrix(v1, nrow = 128)
 #' m2 <- matrix(v2, nrow = 128)
 #' m3 <- matrix(v3, nrow = 128)
-#' cross_bispectrum(m1, m2, m3)
+#' xbs1 <- cross_bispectrum(m1, m2, m3)
 #'
 #' d1 <- stats::mvfft(m1)
 #' d2 <- stats::mvfft(m2)
 #' d3 <- stats::mvfft(m3)
-#' cross_bispectrum(d1, d2, d3, dft_given = TRUE)
+#' xbs2 <- cross_bispectrum(d1, d2, d3, dft_given = TRUE)
 #'
-#' cross_bispectrum(d1, d2, d3, dft_given = TRUE, mc = TRUE)
+#' xbs3 <- cross_bispectrum(d1, d2, d3, dft_given = TRUE, mc = TRUE)
 #'
 #' @export
 cross_bispectrum <- function(x, y, z = y,
@@ -226,14 +226,14 @@ cross_bispectrum <- function(x, y, z = y,
 #' m1 <- matrix(v1, nrow = 128)
 #' m2 <- matrix(v2, nrow = 128)
 #' m3 <- matrix(v3, nrow = 128)
-#' cross_bicoherence(m1, m2, m3)
+#' xbc1 <- cross_bicoherence(m1, m2, m3)
 #'
 #' d1 <- stats::mvfft(m1)
 #' d2 <- stats::mvfft(m2)
 #' d3 <- stats::mvfft(m3)
-#' cross_bicoherence(d1, d2, d3, dft_given = TRUE)
+#' xbc2 <- cross_bicoherence(d1, d2, d3, dft_given = TRUE)
 #'
-#' cross_bicoherence(d1, d2, d3, dft_given = TRUE, mc = TRUE)
+#' xbc3 <- cross_bicoherence(d1, d2, d3, dft_given = TRUE, mc = TRUE)
 #'
 #' @export
 cross_bicoherence <- function(x, y, z = y,

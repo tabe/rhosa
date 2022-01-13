@@ -57,14 +57,14 @@ v3 <- sapply(x, function(x) {cos(2 * x) * cos(3 * x + 1)}) + rnorm(1280)
 m1 <- matrix(v1, nrow = 128)
 m2 <- matrix(v2, nrow = 128)
 m3 <- matrix(v3, nrow = 128)
-cross_bicoherence(m1, m2, m3)
+xbc1 <- cross_bicoherence(m1, m2, m3)
 
 d1 <- stats::mvfft(m1)
 d2 <- stats::mvfft(m2)
 d3 <- stats::mvfft(m3)
-cross_bicoherence(d1, d2, d3, dft_given = TRUE)
+xbc2 <- cross_bicoherence(d1, d2, d3, dft_given = TRUE)
 
-cross_bicoherence(d1, d2, d3, dft_given = TRUE, mc = TRUE)
+xbc3 <- cross_bicoherence(d1, d2, d3, dft_given = TRUE, mc = TRUE)
 
 }
 \references{

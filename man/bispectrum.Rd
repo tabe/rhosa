@@ -50,9 +50,9 @@ f <- function(x) {
 }
 v <- sapply(seq_len(1280), f) + rnorm(1280)
 m <- matrix(v, nrow = 128)
-bispectrum(m)
-bispectrum(m, "hamming")
-bispectrum(m, "blackman", mc = TRUE)
+bs1 <- bispectrum(m)
+bs2 <- bispectrum(m, "hamming")
+bs3 <- bispectrum(m, "blackman", mc = TRUE)
 
 }
 \references{
