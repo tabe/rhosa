@@ -17,5 +17,5 @@
 
 .onAttach <- function(libname, pkgname) {
     if (interactive())
-        packageStartupMessage("Welcome to rhosa")
+        packageStartupMessage(paste0("Welcome to rhosa v", utils::packageVersion("rhosa")))
 }
