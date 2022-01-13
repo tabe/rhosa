@@ -50,6 +50,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="articles/example.html">Getting started with a simple example</a>
+    </li>
+    <li>
       <a href="articles/profiling.html">Profiling rhosa's functions</a>
     </li>
     <li>
@@ -78,7 +81,7 @@
       </header><div class="row">
   <div class="contents col-md-9">
 <div class="section level1">
-<div class="page-header"><h1 id="rhosa--higher-order-spectral-analysis-in-r">rhosa – Higher-Order Spectral Analysis in R<a class="anchor" aria-label="anchor" href="#rhosa--higher-order-spectral-analysis-in-r"></a>
+<div class="page-header"><h1 id="rhosa-higher-order-spectral-analysis-in-r">rhosa: Higher-Order Spectral Analysis in R<a class="anchor" aria-label="anchor" href="#rhosa-higher-order-spectral-analysis-in-r"></a>
 </h1></div>
 <!-- badges: start -->
 
@@ -95,73 +98,6 @@
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"tabe/rhosa"</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
-</h2>
-<p>This is a simple example, based on the outline at Figure 1 of (<a href="#ref-villa_cross-frequency_2010">Villa and Tetko 2010</a>), which demonstrates how to use rhosa’s functions to find an obscure relationship between two frequencies in some time series imitated by a generative model.</p>
-<p>With four cosinusoidal waves having arbitrarily different phases (<code>omega_a</code>, <code>omega_b</code>, <code>omega_c</code>, and <code>omega_d</code>), but sharing a couple of frequencies (<code>f_1</code> and <code>f_2</code>), we define function <code>D(t)</code> to simulate a pair of time series: <code>v</code> and <code>w</code>. We make them noisy by adding an independent random variate that follows the standard normal distribution.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
-<span class="va">f_1</span> <span class="op">&lt;-</span> <span class="fl">0.35</span>
-<span class="va">f_2</span> <span class="op">&lt;-</span> <span class="fl">0.2</span>
-<span class="va">D</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="op">{</span>
-    <span class="va">omega_a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">1</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span><span class="op">)</span>
-    <span class="va">omega_b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">1</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span><span class="op">)</span>
-    <span class="va">omega_c</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">1</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span><span class="op">)</span>
-    <span class="va">omega_d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">1</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span><span class="op">)</span>
-    <span class="va">wave_a</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span> <span class="op">*</span> <span class="va">f_1</span> <span class="op">*</span> <span class="va">t</span> <span class="op">+</span> <span class="va">omega_a</span><span class="op">)</span>
-    <span class="va">wave_b</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span> <span class="op">*</span> <span class="va">f_2</span> <span class="op">*</span> <span class="va">t</span> <span class="op">+</span> <span class="va">omega_b</span><span class="op">)</span>
-    <span class="va">wave_c</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span> <span class="op">*</span> <span class="va">f_1</span> <span class="op">*</span> <span class="va">t</span> <span class="op">+</span> <span class="va">omega_c</span><span class="op">)</span>
-    <span class="va">wave_d</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span> <span class="op">*</span> <span class="va">f_2</span> <span class="op">*</span> <span class="va">t</span> <span class="op">+</span> <span class="va">omega_d</span><span class="op">)</span>
-    <span class="va">curve_v</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="fu">wave_a</span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="op">+</span> <span class="fu">wave_b</span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="op">+</span> <span class="fu">wave_a</span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="op">*</span> <span class="fu">wave_b</span><span class="op">(</span><span class="va">t</span><span class="op">)</span>
-    <span class="va">curve_w</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="fu">wave_c</span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="op">+</span> <span class="fu">wave_d</span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="op">+</span> <span class="fu">wave_c</span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="op">*</span> <span class="fu">wave_b</span><span class="op">(</span><span class="va">t</span><span class="op">)</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu">curve_v</span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span><span class="op">)</span>,
-               w <span class="op">=</span> <span class="fu">curve_w</span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="op">}</span></code></pre></div>
-<p>Both <code>v</code> and <code>w</code> are oscillatory in principle:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/deriv.html" class="external-link">D</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">2048</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">data</span>, <span class="op">{</span>
-    <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">v</span>, <span class="fl">100</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"l"</span>, col <span class="op">=</span> <span class="st">"green"</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span>, xlab <span class="op">=</span> <span class="st">"t"</span>, ylab <span class="op">=</span> <span class="st">"value"</span><span class="op">)</span>
-    <span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">w</span>, <span class="fl">100</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"orange"</span><span class="op">)</span>
-<span class="op">}</span><span class="op">)</span></code></pre></div>
-<p><img src="reference/figures/README-ts-1.png" title="v and w." alt="v and w." width="50%"></p>
-<p>It is noteworthy that the power spectrum densities of <code>v</code> and <code>w</code> are basically identical as shown in their spectral density estimation:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">data</span>, <span class="op">{</span>
-    <span class="fu"><a href="https://rdrr.io/r/stats/spectrum.html" class="external-link">spectrum</a></span><span class="op">(</span><span class="va">v</span>, main <span class="op">=</span> <span class="st">"v"</span>, col <span class="op">=</span> <span class="st">"green"</span><span class="op">)</span>
-    <span class="fu"><a href="https://rdrr.io/r/stats/spectrum.html" class="external-link">spectrum</a></span><span class="op">(</span><span class="va">w</span>, main <span class="op">=</span> <span class="st">"w"</span>, col <span class="op">=</span> <span class="st">"orange"</span><span class="op">)</span>
-<span class="op">}</span><span class="op">)</span></code></pre></div>
-<p><img src="reference/figures/README-psd-1.png" title="Spectral density estimation via periodograms." alt="Spectral density estimation via periodograms." width="50%"><img src="reference/figures/README-psd-2.png" title="Spectral density estimation via periodograms." alt="Spectral density estimation via periodograms." width="50%"></p>
-<p>On the other hand, their bispectra are different. More specifically, we are going to see that their bicoherence at some pairs of frequencies are different. rhosa’s <code>bicoherence</code> function allows us to estimate the magnitude-squared bicoherence from samples.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fu"><a href="https://rdrr.io/r/stats/deriv.html" class="external-link">D</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">128</span><span class="op">)</span><span class="op">)</span>, simplify <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="va">m_v</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">cbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">d</span><span class="op">)</span> <span class="op">{</span><span class="va">d</span><span class="op">$</span><span class="va">v</span><span class="op">}</span>, <span class="va">x</span><span class="op">)</span><span class="op">)</span>
-<span class="va">m_w</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">cbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">d</span><span class="op">)</span> <span class="op">{</span><span class="va">d</span><span class="op">$</span><span class="va">w</span><span class="op">}</span>, <span class="va">x</span><span class="op">)</span><span class="op">)</span>
-
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tabe.github.io/rhosa/" class="external-link">rhosa</a></span><span class="op">)</span>
-
-<span class="va">bc_v</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bicoherence.html">bicoherence</a></span><span class="op">(</span><span class="va">m_v</span>, window_function <span class="op">=</span> <span class="st">'hamming'</span><span class="op">)</span>
-<span class="va">bc_w</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bicoherence.html">bicoherence</a></span><span class="op">(</span><span class="va">m_w</span>, window_function <span class="op">=</span> <span class="st">'hamming'</span><span class="op">)</span></code></pre></div>
-<p>In the above code, we take 100 samples of the same length for a smoother result. The <code>bicoherence</code> function accepts a matrix whose column represents a sample sequence, and returns a data frame. Note that an optional argument to <code>bicoherence</code> is given for requesting tapering with Hamming <a href="https://en.wikipedia.org/wiki/Window_function" class="external-link">window function</a>.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
-
-<span class="va">plot_bicoherence</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">bc</span><span class="op">)</span> <span class="op">{</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">bc</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">f1</span>, <span class="va">f2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_raster</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_fill_gradient</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_fixed</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">}</span></code></pre></div>
-<p>The axis <code>f1</code> and <code>f2</code> represent normalized frequencies in unit cycles/sample of range <code>[0, 1)</code>. Frequency pairs of bright points in the following plot of <code>bc_v</code> indicate the existence of some quadratic phase coupling, as expected:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">plot_bicoherence</span><span class="op">(</span><span class="va">bc_v</span><span class="op">)</span></code></pre></div>
-<p><img src="reference/figures/README-viz_bc_v-1.png" title="v's estimated magnitude-squared bicoherence." alt="v's estimated magnitude-squared bicoherence." width="50%"></p>
-<p>In contrast, <code>bc_w</code> has no peaks at frequency pair <code>(f_1, f_2) = (0.35, 0.2)</code>, etc.:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">plot_bicoherence</span><span class="op">(</span><span class="va">bc_w</span><span class="op">)</span></code></pre></div>
-<p><img src="reference/figures/README-viz_bc_w-1.png" title="w's estimated magnitude-squared bicoherence." alt="w's estimated magnitude-squared bicoherence." width="50%"></p>
-</div>
-<div class="section level2">
 <h2 id="acknowledgement">Acknowledgement<a class="anchor" aria-label="anchor" href="#acknowledgement"></a>
 </h2>
 <p>The author thanks Alessandro E. P. Villa for his generous support to this project.</p>
@@ -172,9 +108,6 @@
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-brillinger_investigation_1998" class="csl-entry">
 Brillinger, D. R., and R. A. Irizarry. 1998. “An Investigation of the Second- and Higher-Order Spectra of Music.” <em>Signal Processing</em> 65 (2): 161–79. <a href="https://doi.org/10.1016/S0165-1684(97)00217-X" class="external-link uri">https://doi.org/10.1016/S0165-1684(97)00217-X</a>.
-</div>
-<div id="ref-villa_cross-frequency_2010" class="csl-entry">
-Villa, Alessandro E. P., and Igor V. Tetko. 2010. “Cross-Frequency Coupling in Mesiotemporal EEG Recordings of Epileptic Patients.” <em>Journal of Physiology-Paris</em>, Neural Coding, 104 (3): 197–202. <a href="https://doi.org/10.1016/j.jphysparis.2009.11.024" class="external-link uri">https://doi.org/10.1016/j.jphysparis.2009.11.024</a>.
 </div>
 </div>
 </div>
@@ -216,7 +149,6 @@ Villa, Alessandro E. P., and Igor V. Tetko. 2010. “Cross-Frequency Coupling in
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://travis-ci.com/tabe/rhosa" class="external-link"><img src="https://travis-ci.com/tabe/rhosa.svg?branch=master" alt="Build Status"></a></li>
 <li><a href="https://CRAN.R-project.org/package=rhosa" class="external-link"><img src="https://www.r-pkg.org/badges/version/rhosa" alt="CRAN status"></a></li>
 <li><a href="https://github.com/tabe/rhosa/actions" class="external-link"><img src="https://github.com/tabe/rhosa/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 </ul>

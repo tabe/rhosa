@@ -50,6 +50,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/example.html">Getting started with a simple example</a>
+    </li>
+    <li>
       <a href="../articles/profiling.html">Profiling rhosa's functions</a>
     </li>
     <li>
@@ -115,15 +118,16 @@
 <code class="sourceCode R"><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu">profile_by_Rprof</span><span class="op">(</span><span class="fu"><a href="../reference/bicoherence.html">bicoherence</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">o1</span><span class="op">)</span><span class="op">)</span>
 <span class="va">s</span><span class="op">$</span><span class="va">by.self</span>
 <span class="co">#&gt;           self.time self.pct total.time total.pct</span>
-<span class="co">#&gt; "d"            0.98    29.88       1.58     48.17</span>
-<span class="co">#&gt; "vapply"       0.46    14.02       3.26     99.39</span>
-<span class="co">#&gt; "I2"           0.40    12.20       1.28     39.02</span>
-<span class="co">#&gt; "FUN"          0.38    11.59       2.80     85.37</span>
-<span class="co">#&gt; ".assert"      0.38    11.59       0.60     18.29</span>
-<span class="co">#&gt; "I3"           0.32     9.76       1.14     34.76</span>
-<span class="co">#&gt; "all"          0.22     6.71       0.22      6.71</span>
-<span class="co">#&gt; "abs"          0.12     3.66       0.12      3.66</span>
-<span class="co">#&gt; "f2"           0.02     0.61       1.88     57.32</span></code></pre></div>
+<span class="co">#&gt; "d"            1.12    32.56       1.94     56.40</span>
+<span class="co">#&gt; "I2"           0.52    15.12       1.48     43.02</span>
+<span class="co">#&gt; ".assert"      0.48    13.95       0.82     23.84</span>
+<span class="co">#&gt; "all"          0.34     9.88       0.34      9.88</span>
+<span class="co">#&gt; "I3"           0.32     9.30       1.34     38.95</span>
+<span class="co">#&gt; "FUN"          0.30     8.72       3.12     90.70</span>
+<span class="co">#&gt; "vapply"       0.26     7.56       3.40     98.84</span>
+<span class="co">#&gt; "mean"         0.04     1.16       3.44    100.00</span>
+<span class="co">#&gt; "abs"          0.04     1.16       0.04      1.16</span>
+<span class="co">#&gt; "numeric"      0.02     0.58       0.02      0.58</span></code></pre></div>
 </div>
 <div class="section level1">
 <h1 id="cross_bicoherence">
@@ -133,8 +137,8 @@
 <code class="sourceCode R"><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu">profile_by_Rprof</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="../reference/cross_bicoherence.html">cross_bicoherence</a></span><span class="op">(</span><span class="va">o1</span>, <span class="va">o2</span>, <span class="va">o3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="va">s</span><span class="op">$</span><span class="va">by.self</span>
 <span class="co">#&gt;          self.time self.pct total.time total.pct</span>
-<span class="co">#&gt; "FUN"         0.16    72.73       0.20     90.91</span>
-<span class="co">#&gt; "abs"         0.04    18.18       0.04     18.18</span>
+<span class="co">#&gt; "FUN"         0.18    81.82       0.20     90.91</span>
+<span class="co">#&gt; "abs"         0.02     9.09       0.02      9.09</span>
 <span class="co">#&gt; "unique"      0.02     9.09       0.02      9.09</span></code></pre></div>
 </div>
   </div>
