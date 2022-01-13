@@ -1,4 +1,5 @@
 ^\.travis\.yml$
+^attic$
 ^doc$
 ^Meta$
 ^README\.Rmd$
