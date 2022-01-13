@@ -3,7 +3,7 @@
 .RData
 .Rhistory
 inst/doc
-doc
-Meta
 README.html
 docs
+/doc/
+/Meta/
