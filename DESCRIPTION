@@ -8,7 +8,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "tabe@fixedpoint.jp",
            comment = c(ORCID = "0000-0002-7074-4561"))
-Description: Higher-order spectra or polyspectra of time series, such as bispectrum and bicoherence, have been investigated in abundant literature and applied to problems of signal detection in a wide range of fields. This package aims to provide a simple API to estimate and analyze them. The current implementation is based on Brillinger and Irizarry (1998) <doi:10.1016/S0165-1684(97)00217-X> for estimating bispectrum, Lii and Helland (1981) <doi:10.1145/355958.355961> for cross-bispectrum, and Kim and Powers (1979) <doi:10.1109/TPS.1979.4317207> for (cross-)bicoherence.
+Description: Higher-order spectra or polyspectra of time series, such as bispectrum and bicoherence, have been investigated in abundant literature and applied to problems of signal detection in a wide range of fields. This package aims to provide a simple API to estimate and analyze them. The current implementation is based on Brillinger and Irizarry (1998) <doi:10.1016/S0165-1684(97)00217-X> for estimating bispectrum or bicoherence, Lii and Helland (1981) <doi:10.1145/355958.355961> for cross-bispectrum, and Kim and Powers (1979) <doi:10.1109/TPS.1979.4317207> for cross-bicoherence.
 License: GPL-3
 Encoding: UTF-8
 URL: https://tabe.github.io/rhosa/
