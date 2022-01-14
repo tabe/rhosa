@@ -92,6 +92,7 @@ test_that("bispectrum of series with the opposite sign", {
 })
 
 test_that("bispectrum returns the same result regardless of mc", {
+    skip_on_os("windows") # where mc.cores > 1 is not allowed
     v <- runif(64, min = -1, max = 1)
     bs1 <- expect_silent(bispectrum(v))
     bs2 <- expect_silent(bispectrum(v, mc = TRUE, mc_cores = 2))
@@ -161,6 +162,7 @@ test_that("bicoherence of a time-series of length 1", {
 })
 
 test_that("bicoherence returns the same result regardless of mc", {
+    skip_on_os("windows") # where mc.cores > 1 is not allowed
     v <- runif(64, min = -1, max = 1)
     bc1 <- expect_silent(bicoherence(v))
     bc2 <- expect_silent(bicoherence(v, mc = TRUE, mc_cores = 2))

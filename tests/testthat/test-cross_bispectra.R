@@ -104,6 +104,7 @@ test_that("cross_bispectrum of a time-series of length 1", {
 })
 
 test_that("cross_bispectrum returns the same result regardless of mc", {
+    skip_on_os("windows") # where mc.cores > 1 is not allowed
     x <- runif(64, min = -1, max = 1)
     y <- runif(64, min = -1, max = 1)
     z <- runif(64, min = -1, max = 1)
@@ -203,6 +204,7 @@ test_that("cross_bicoherence of a time-series of length 1", {
 })
 
 test_that("cross_bicoherence returns the same result regardless of mc", {
+    skip_on_os("windows") # where mc.cores > 1 is not allowed
     x <- runif(64, min = -1, max = 1)
     y <- runif(64, min = -1, max = 1)
     z <- runif(64, min = -1, max = 1)
