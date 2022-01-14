@@ -156,7 +156,7 @@
 #' m <- matrix(v, nrow = 128)
 #' bs1 <- bispectrum(m)
 #' bs2 <- bispectrum(m, "hamming")
-#' bs3 <- bispectrum(m, "blackman", mc = TRUE)
+#' bs3 <- bispectrum(m, "blackman", mc = TRUE, mc_cores = 1L)
 #'
 #' @export
 bispectrum <- function(data, window_function = NULL,
@@ -223,7 +223,7 @@ bispectrum <- function(data, window_function = NULL,
 #' m <- matrix(v, nrow = 128)
 #' bc1 <- bicoherence(m)
 #' bc2 <- bicoherence(m, "hamming")
-#' bc3 <- bicoherence(m, "hann", mc = TRUE)
+#' bc3 <- bicoherence(m, "hann", mc = TRUE, mc_cores = 1L)
 #'
 #' @export
 bicoherence <- function(data,

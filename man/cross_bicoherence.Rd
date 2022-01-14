@@ -2,7 +2,7 @@
 % Please edit documentation in R/cross_bispectra.R
 \name{cross_bicoherence}
 \alias{cross_bicoherence}
-\title{Estimate cross-coherence from time series data.}
+\title{Estimate cross-bicoherence from time series data.}
 \usage{
 cross_bicoherence(
   x,
@@ -47,7 +47,7 @@ frequency pair.
 }
 }
 \description{
-Estimate cross-coherence from three real-valued time series data.
+Estimate cross-bicoherence from three real-valued time series data.
 }
 \examples{
 x <- seq_len(1280)
@@ -64,7 +64,7 @@ d2 <- stats::mvfft(m2)
 d3 <- stats::mvfft(m3)
 xbc2 <- cross_bicoherence(d1, d2, d3, dft_given = TRUE)
 
-xbc3 <- cross_bicoherence(d1, d2, d3, dft_given = TRUE, mc = TRUE)
+xbc3 <- cross_bicoherence(d1, d2, d3, dft_given = TRUE, mc = TRUE, mc_cores = 1L)
 
 }
 \references{

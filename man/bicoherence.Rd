@@ -70,7 +70,7 @@ v <- sapply(seq_len(1280), f) + rnorm(1280)
 m <- matrix(v, nrow = 128)
 bc1 <- bicoherence(m)
 bc2 <- bicoherence(m, "hamming")
-bc3 <- bicoherence(m, "hann", mc = TRUE)
+bc3 <- bicoherence(m, "hann", mc = TRUE, mc_cores = 1L)
 
 }
 \references{

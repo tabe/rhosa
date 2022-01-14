@@ -63,7 +63,7 @@ d2 <- stats::mvfft(m2)
 d3 <- stats::mvfft(m3)
 xbs2 <- cross_bispectrum(d1, d2, d3, dft_given = TRUE)
 
-xbs3 <- cross_bispectrum(d1, d2, d3, dft_given = TRUE, mc = TRUE)
+xbs3 <- cross_bispectrum(d1, d2, d3, dft_given = TRUE, mc = TRUE, mc_cores = 1L)
 
 }
 \references{

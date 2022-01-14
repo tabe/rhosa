@@ -104,7 +104,7 @@
 #' d3 <- stats::mvfft(m3)
 #' xbs2 <- cross_bispectrum(d1, d2, d3, dft_given = TRUE)
 #'
-#' xbs3 <- cross_bispectrum(d1, d2, d3, dft_given = TRUE, mc = TRUE)
+#' xbs3 <- cross_bispectrum(d1, d2, d3, dft_given = TRUE, mc = TRUE, mc_cores = 1L)
 #'
 #' @export
 cross_bispectrum <- function(x, y, z = y,
@@ -193,9 +193,9 @@ cross_bispectrum <- function(x, y, z = y,
     }
 }
 
-#' Estimate cross-coherence from time series data.
+#' Estimate cross-bicoherence from time series data.
 #'
-#' Estimate cross-coherence from three real-valued time series data.
+#' Estimate cross-bicoherence from three real-valued time series data.
 #'
 #' @inheritParams cross_bispectrum
 #'
@@ -233,7 +233,7 @@ cross_bispectrum <- function(x, y, z = y,
 #' d3 <- stats::mvfft(m3)
 #' xbc2 <- cross_bicoherence(d1, d2, d3, dft_given = TRUE)
 #'
-#' xbc3 <- cross_bicoherence(d1, d2, d3, dft_given = TRUE, mc = TRUE)
+#' xbc3 <- cross_bicoherence(d1, d2, d3, dft_given = TRUE, mc = TRUE, mc_cores = 1L)
 #'
 #' @export
 cross_bicoherence <- function(x, y, z = y,

@@ -52,7 +52,7 @@ v <- sapply(seq_len(1280), f) + rnorm(1280)
 m <- matrix(v, nrow = 128)
 bs1 <- bispectrum(m)
 bs2 <- bispectrum(m, "hamming")
-bs3 <- bispectrum(m, "blackman", mc = TRUE)
+bs3 <- bispectrum(m, "blackman", mc = TRUE, mc_cores = 1L)
 
 }
 \references{
