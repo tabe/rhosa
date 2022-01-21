@@ -1,7 +1,5 @@
 ---
 title: "Detecting quadratic phase coupling from time series data by rhosa"
-author: "Takeshi Abe"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Detecting quadratic phase coupling from time series data by rhosa}
