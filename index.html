@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Higher-Order Spectral Analysis">
-<meta property="og:description" content="Higher-order spectra or polyspectra of time series, such as bispectrum and bicoherence, have been investigated in abundant literature and applied to problems of signal detection in a wide range of fields. This package aims to provide a simple API to estimate and analyze them. The current implementation is based on Brillinger and Irizarry (1998) &lt;doi:10.1016/S0165-1684(97)00217-X&gt; for estimating bispectrum, Lii and Helland (1981) &lt;doi:10.1145/355958.355961&gt; for cross-bispectrum, and Kim and Powers (1979) &lt;doi:10.1109/TPS.1979.4317207&gt; for (cross-)bicoherence.">
+<meta property="og:description" content="Higher-order spectra or polyspectra of time series, such as bispectrum and bicoherence, have been investigated in abundant literature and applied to problems of signal detection in a wide range of fields. This package aims to provide a simple API to estimate and analyze them. The current implementation is based on Brillinger and Irizarry (1998) &lt;doi:10.1016/S0165-1684(97)00217-X&gt; for estimating bispectrum or bicoherence, Lii and Helland (1981) &lt;doi:10.1145/355958.355961&gt; for cross-bispectrum, and Kim and Powers (1979) &lt;doi:10.1109/TPS.1979.4317207&gt; for cross-bicoherence.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">rhosa</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0.9011</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0</span>
       </span>
     </div>
 
@@ -50,15 +50,18 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/example.html">Getting started with a simple example</a>
+      <a href="articles/profiling.html">Profiling rhosa's functions</a>
     </li>
     <li>
-      <a href="articles/profiling.html">Profiling rhosa's functions</a>
+      <a href="articles/example.html">Getting started with a simple example</a>
     </li>
     <li>
       <a href="articles/quadratic_phase_coupling.html">Detecting quadratic phase coupling from time series data by rhosa</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -85,7 +88,10 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>This package aims to provide functions to analyze and estimate higher-order spectra or polyspectra of multivariate time series, such as bispectrum and bicoherence (<a href="#ref-brillinger_investigation_1998">Brillinger and Irizarry 1998</a>).</p>
+<p>This package aims to provide functions to analyze and estimate
+higher-order spectra or polyspectra of multivariate time series, such as
+bispectrum and bicoherence (<a href="#ref-brillinger_investigation_1998">Brillinger and Irizarry
+1998</a>).</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -100,14 +106,17 @@
 <div class="section level2">
 <h2 id="acknowledgement">Acknowledgement<a class="anchor" aria-label="anchor" href="#acknowledgement"></a>
 </h2>
-<p>The author thanks Alessandro E. P. Villa for his generous support to this project.</p>
+<p>The author thanks Alessandro E. P. Villa for his generous support to
+this project.</p>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-brillinger_investigation_1998" class="csl-entry">
-Brillinger, D. R., and R. A. Irizarry. 1998. “An Investigation of the Second- and Higher-Order Spectra of Music.” <em>Signal Processing</em> 65 (2): 161–79. <a href="https://doi.org/10.1016/S0165-1684(97)00217-X" class="external-link uri">https://doi.org/10.1016/S0165-1684(97)00217-X</a>.
+Brillinger, D. R., and R. A. Irizarry. 1998. “An Investigation of the
+Second- and Higher-Order Spectra of Music.” <em>Signal Processing</em>
+65 (2): 161–79. <a href="https://doi.org/10.1016/S0165-1684(97)00217-X" class="external-link uri">https://doi.org/10.1016/S0165-1684(97)00217-X</a>.
 </div>
 </div>
 </div>
@@ -165,7 +174,8 @@ Brillinger, D. R., and R. A. Irizarry. 1998. “An Investigation of the Second- 
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+2.0.2.</p>
 </div>
 
       </footer>
