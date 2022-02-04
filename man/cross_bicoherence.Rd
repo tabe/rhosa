@@ -22,8 +22,8 @@ correspond to sampled stretches.}
 \item{z}{Optional 3rd time series, with the same dimension as x (and thus as y).
 If omitted, \code{y} is used instead.}
 
-\item{dft_given}{If TRUE, suppose that DFTs is given instead of time series
-data and skip the fast fourier transform. Default: FALSE.}
+\item{dft_given}{If TRUE, suppose that DFTs are given instead of time series
+data and skip the fast fourier transform. Default: \code{FALSE}.}
 
 \item{mc}{If \code{TRUE}, calculation is done in parallel computation.
 Defaults to \code{FALSE}.}
