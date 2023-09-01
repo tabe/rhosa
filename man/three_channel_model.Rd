@@ -45,7 +45,7 @@ Each element has \code{num_observations} columns and \code{num_samples} rows.
 Simulate observations by a three-channel model of quadratic phase coupling.
 }
 \details{
-Given three periodic functions, this function generate a list of three data
+Given three periodic functions, this function generates a list of three data
 frames in which each column represents a simulated observation at a channel.
 The phase is chosen at random from \eqn{[0, 2 \pi]}{[0, 2 * pi]} for each
 observation and each channel.
