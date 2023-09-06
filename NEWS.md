@@ -2,6 +2,8 @@
 
 * New function `biperiodogram()` for calculating the biperiodogram of real-valued time series.
 
+* New function `kim_and_powers_model()` for reproducing signals described in [Kim and Powers (1979)](https://doi.org/10.1109/TPS.1979.4317207).
+
 # rhosa 0.2.0
 
 * `cross_bicoherence()` now follow an alternative definition of (cross-)bicoherence due to [Kim and Powers (1979)](https://doi.org/10.1109/TPS.1979.4317207).

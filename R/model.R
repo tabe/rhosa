@@ -98,3 +98,53 @@ three_channel_model <- function(f1, f2, f3,
          o2 = get_data_frame(y, "o2"),
          o3 = get_data_frame(y, "o3"))
 }
+
+#' A test signal of the phase coherence between three oscillators
+#'
+#' Generate test signals which involve three oscillators described in Kim and Powers (1979).
+#'
+#' This function produces a list of numeric vectors; its each element represents
+#' a test signal in which three oscillators b, c, and d are superimposed.
+#' The ratio of the frequency of b (f1) to the Nyquist frequency is 0.220 and
+#' the ratio of the frequency of c (f2) to the Nyquist frequency is 0.375, by default.
+#' The d's frequency f3 is equal to f1 + f2 unless specified otherwise.
+#' Optionally the product of b and c is also added to signals.
+#'
+#' @param fbfN b's frequency divided by the Nyquist frequency; \code{0.220} by default.
+#' @param fcfN c's frequency divided by the Nyquist frequency; \code{0.375} by default.
+#' @param fdfN d's frequency divided by the Nyquist frequency; \code{fbfN + fcfN} by default.
+#' @param num_points The number of sampling points in a record; 128 by default.
+#' @param num_records The number of records; 64 by default.
+#' @param noise_sd The standard deviation of a Gaussian noise perturbing samples; 0.1 (-20dB) by default.
+#' @param phase_coherence If TRUE (default), the phase coherence in the signal d is on; otherwise off.
+#' @param product_term If TRUE, the product of b and c is included in the model; FALSE by default.
+#'
+#' @return A matrix of \code{num_points} rows x \code{num_records} columns.
+#'
+#' @examples
+#' data <- kim_and_powers_model()
+#'
+#' @export
+kim_and_powers_model <- function(fbfN = 0.220,
+                                 fcfN = 0.375,
+                                 fdfN = fbfN + fcfN,
+                                 num_points = 128,
+                                 num_records = 64,
+                                 noise_sd = 0.1,
+                                 phase_coherence = TRUE,
+                                 product_term = FALSE) {
+    do.call(cbind, Map(function(i) {
+        t <- seq_len(num_points)
+        tb <- stats::runif(1, min = -pi, max = pi)
+        tc <- stats::runif(1, min = -pi, max = pi)
+        td <- ifelse(phase_coherence, tb + tc, stats::runif(1, min = -pi, max = pi))
+        b <- cos(pi * fbfN * t + tb)
+        c <- cos(pi * fcfN * t + tc)
+        d <- 0.5 * cos(pi * fdfN * t + td)
+        n <- stats::rnorm(num_points, sd = noise_sd)
+        if (product_term)
+            b + c + d + b * c + n
+        else
+            b + c + d + n
+    }, seq_len(num_records)))
+}
