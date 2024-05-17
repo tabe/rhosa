@@ -1,4 +1,4 @@
-# rhosa development
+# rhosa 0.3.0
 
 * New function `biperiodogram()` for calculating the biperiodogram of real-valued time series.
 

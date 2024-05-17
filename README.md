@@ -10,10 +10,12 @@ status](https://www.r-pkg.org/badges/version/rhosa)](https://CRAN.R-project.org/
 [![R-CMD-check](https://github.com/tabe/rhosa/workflows/R-CMD-check/badge.svg)](https://github.com/tabe/rhosa/actions)
 <!-- badges: end -->
 
-This package aims to provide functions to analyze and estimate
-higher-order spectra or polyspectra of multivariate time series, such as
-bispectrum and bicoherence ([Brillinger and Irizarry
-1998](#ref-brillinger_investigation_1998)).
+This package aims to provide functions to estimate higher-order spectra
+or polyspectra of multivariate time series, such as bispectrum and
+bicoherence ([Brillinger and Irizarry
+1998](#ref-brillinger_investigation_1998)). They are useful for
+e.g. detecting nonlinear interaction between stationary time series
+driven by periodic signals ([Abe et al. 2024](#ref-abe_detecting_2024)).
 
 ## Installation
 
@@ -40,7 +42,18 @@ this project.
 
 ## References
 
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent"
+entry-spacing="0">
+
+<div id="ref-abe_detecting_2024" class="csl-entry">
+
+Abe, Takeshi, Yoshiyuki Asai, Alessandra Lintas, and Alessandro E. P.
+Villa. 2024. “Detection of Quadratic Phase Coupling by Cross-Bicoherence
+and Spectral Granger Causality in Bifrequencies Interactions.”
+*Scientific Reports* 14 (1): 8521.
+<https://doi.org/10.1038/s41598-024-59004-8>.
+
+</div>
 
 <div id="ref-brillinger_investigation_1998" class="csl-entry">
 
