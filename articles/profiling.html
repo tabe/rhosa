@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rhosa</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.0</span>
       </span>
     </div>
 
@@ -43,7 +43,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -95,57 +95,54 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tabe.github.io/rhosa/" class="external-link">rhosa</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tabe.github.io/rhosa/" class="external-link">rhosa</a></span><span class="op">)</span></span></code></pre></div>
 <p>This document provides some examples of profiling R code using rhosa
 to estimate polyspectra. Readers will find some hints for understanding
 the performance of rhosa’s functions.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">profile_by_Rprof</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span>
-    <span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span>
-    <span class="fu"><a href="https://rdrr.io/r/utils/Rprof.html" class="external-link">Rprof</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span>
-    <span class="op">(</span><span class="va">...</span><span class="op">)</span>
-    <span class="fu"><a href="https://rdrr.io/r/utils/Rprof.html" class="external-link">Rprof</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span>
-    <span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/summaryRprof.html" class="external-link">summaryRprof</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span>
-    <span class="va">s</span>
-<span class="op">}</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">profile_by_Rprof</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/utils/Rprof.html" class="external-link">Rprof</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span>
+<span>    <span class="op">(</span><span class="va">...</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/utils/Rprof.html" class="external-link">Rprof</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span>
+<span>    <span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/summaryRprof.html" class="external-link">summaryRprof</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span>
+<span>    <span class="va">s</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sawtooth</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">r</span><span class="op">)</span> <span class="op">{</span>
-    <span class="va">q</span> <span class="op">&lt;-</span> <span class="va">r</span><span class="op">/</span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="va">pi</span><span class="op">)</span>
-    <span class="va">q</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span> <span class="op">-</span> <span class="fl">0.5</span>
-<span class="op">}</span>
-<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/three_channel_model.html">three_channel_model</a></span><span class="op">(</span><span class="va">cos</span>, <span class="va">sin</span>, <span class="va">sawtooth</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">sawtooth</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">r</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">q</span> <span class="op">&lt;-</span> <span class="va">r</span><span class="op">/</span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="va">pi</span><span class="op">)</span></span>
+<span>    <span class="va">q</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span> <span class="op">-</span> <span class="fl">0.5</span></span>
+<span><span class="op">}</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/three_channel_model.html">three_channel_model</a></span><span class="op">(</span><span class="va">cos</span>, <span class="va">sin</span>, <span class="va">sawtooth</span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="bicoherence">
 <code>bicoherence</code><a class="anchor" aria-label="anchor" href="#bicoherence"></a>
 </h2>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu">profile_by_Rprof</span><span class="op">(</span><span class="fu"><a href="../reference/bicoherence.html">bicoherence</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">o1</span><span class="op">)</span><span class="op">)</span>
-<span class="va">s</span><span class="op">$</span><span class="va">by.self</span>
-<span class="co">#&gt;                self.time self.pct total.time total.pct</span>
-<span class="co">#&gt; "d"                 1.22    35.67       1.82     53.22</span>
-<span class="co">#&gt; "vapply"            0.54    15.79       3.32     97.08</span>
-<span class="co">#&gt; ".assert"           0.40    11.70       0.60     17.54</span>
-<span class="co">#&gt; "I3"                0.36    10.53       1.28     37.43</span>
-<span class="co">#&gt; "I2"                0.34     9.94       1.32     38.60</span>
-<span class="co">#&gt; "all"               0.20     5.85       0.20      5.85</span>
-<span class="co">#&gt; "FUN"               0.18     5.26       2.78     81.29</span>
-<span class="co">#&gt; "abs"               0.06     1.75       0.06      1.75</span>
-<span class="co">#&gt; "mean.default"      0.06     1.75       0.06      1.75</span>
-<span class="co">#&gt; "mean"              0.04     1.17       3.42    100.00</span>
-<span class="co">#&gt; "Conj"              0.02     0.58       0.02      0.58</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu">profile_by_Rprof</span><span class="op">(</span><span class="fu"><a href="../reference/bicoherence.html">bicoherence</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">o1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">s</span><span class="op">$</span><span class="va">by.self</span></span>
+<span><span class="co">#&gt;           self.time self.pct total.time total.pct</span></span>
+<span><span class="co">#&gt; "d"            1.42    40.34       2.10     59.66</span></span>
+<span><span class="co">#&gt; ".assert"      0.44    12.50       0.68     19.32</span></span>
+<span><span class="co">#&gt; "I2"           0.36    10.23       1.52     43.18</span></span>
+<span><span class="co">#&gt; "vapply"       0.34     9.66       3.50     99.43</span></span>
+<span><span class="co">#&gt; "FUN"          0.34     9.66       3.14     89.20</span></span>
+<span><span class="co">#&gt; "I3"           0.34     9.66       1.28     36.36</span></span>
+<span><span class="co">#&gt; "all"          0.24     6.82       0.24      6.82</span></span>
+<span><span class="co">#&gt; "mean"         0.02     0.57       3.52    100.00</span></span>
+<span><span class="co">#&gt; "numeric"      0.02     0.57       0.02      0.57</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="cross_bicoherence">
 <code>cross_bicoherence</code><a class="anchor" aria-label="anchor" href="#cross_bicoherence"></a>
 </h2>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu">profile_by_Rprof</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="../reference/cross_bicoherence.html">cross_bicoherence</a></span><span class="op">(</span><span class="va">o1</span>, <span class="va">o2</span>, <span class="va">o3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="va">s</span><span class="op">$</span><span class="va">by.self</span>
-<span class="co">#&gt;           self.time self.pct total.time total.pct</span>
-<span class="co">#&gt; "FUN"          0.14    63.64       0.20     90.91</span>
-<span class="co">#&gt; "abs"          0.06    27.27       0.06     27.27</span>
-<span class="co">#&gt; "seq.int"      0.02     9.09       0.02      9.09</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu">profile_by_Rprof</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="../reference/cross_bicoherence.html">cross_bicoherence</a></span><span class="op">(</span><span class="va">o1</span>, <span class="va">o2</span>, <span class="va">o3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">s</span><span class="op">$</span><span class="va">by.self</span></span>
+<span><span class="co">#&gt;       self.time self.pct total.time total.pct</span></span>
+<span><span class="co">#&gt; "FUN"      0.16       80       0.20       100</span></span>
+<span><span class="co">#&gt; "abs"      0.04       20       0.04        20</span></span></code></pre></div>
 </div>
   </div>
 
@@ -166,8 +163,7 @@ the performance of rhosa’s functions.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

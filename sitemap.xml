@@ -28,6 +28,9 @@
     <loc>/reference/bicoherence.html</loc>
   </url>
   <url>
+    <loc>/reference/biperiodogram.html</loc>
+  </url>
+  <url>
     <loc>/reference/bispectrum.html</loc>
   </url>
   <url>
@@ -47,6 +50,9 @@
   </url>
   <url>
     <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/kim_and_powers_model.html</loc>
   </url>
   <url>
     <loc>/reference/mode_matching.html</loc>

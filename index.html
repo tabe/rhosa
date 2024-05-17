@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">rhosa</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.0</span>
       </span>
     </div>
 
@@ -43,7 +43,7 @@
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -88,35 +88,32 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>This package aims to provide functions to analyze and estimate
-higher-order spectra or polyspectra of multivariate time series, such as
-bispectrum and bicoherence (<a href="#ref-brillinger_investigation_1998">Brillinger and Irizarry
-1998</a>).</p>
+<p>This package aims to provide functions to estimate higher-order spectra or polyspectra of multivariate time series, such as bispectrum and bicoherence (<a href="#ref-brillinger_investigation_1998">Brillinger and Irizarry 1998</a>). They are useful for e.g. detecting nonlinear interaction between stationary time series driven by periodic signals (<a href="#ref-abe_detecting_2024">Abe et al. 2024</a>).</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p>You can install the released version of rhosa from <a href="https://CRAN.R-project.org" class="external-link">CRAN</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"rhosa"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"rhosa"</span><span class="op">)</span></span></code></pre></div>
 <p>Alternatively, the development version from <a href="https://github.com/" class="external-link">GitHub</a> with <a href="https://cran.r-project.org/package=remotes" class="external-link">remotes</a>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"tabe/rhosa"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"tabe/rhosa"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="acknowledgement">Acknowledgement<a class="anchor" aria-label="anchor" href="#acknowledgement"></a>
 </h2>
-<p>The author thanks Alessandro E. P. Villa for his generous support to
-this project.</p>
+<p>The author thanks Alessandro E. P. Villa for his generous support to this project.</p>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-abe_detecting_2024" class="csl-entry">
+Abe, Takeshi, Yoshiyuki Asai, Alessandra Lintas, and Alessandro E. P. Villa. 2024. “Detection of Quadratic Phase Coupling by Cross-Bicoherence and Spectral Granger Causality in Bifrequencies Interactions.” <em>Scientific Reports</em> 14 (1): 8521. <a href="https://doi.org/10.1038/s41598-024-59004-8" class="external-link uri">https://doi.org/10.1038/s41598-024-59004-8</a>.
+</div>
 <div id="ref-brillinger_investigation_1998" class="csl-entry">
-Brillinger, D. R., and R. A. Irizarry. 1998. “An Investigation of the
-Second- and Higher-Order Spectra of Music.” <em>Signal Processing</em>
-65 (2): 161–79. <a href="https://doi.org/10.1016/S0165-1684(97)00217-X" class="external-link uri">https://doi.org/10.1016/S0165-1684(97)00217-X</a>.
+Brillinger, D. R., and R. A. Irizarry. 1998. “An Investigation of the Second- and Higher-Order Spectra of Music.” <em>Signal Processing</em> 65 (2): 161–79. <a href="https://doi.org/10.1016/S0165-1684(97)00217-X" class="external-link uri">https://doi.org/10.1016/S0165-1684(97)00217-X</a>.
 </div>
 </div>
 </div>
@@ -127,7 +124,6 @@ Second- and Higher-Order Spectra of Music.” <em>Signal Processing</em>
     <div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://cloud.r-project.org/package=rhosa" class="external-link">View on CRAN</a></li>
 <li><a href="https://github.com/tabe/rhosa/" class="external-link">Browse source code</a></li>
 <li><a href="https://github.com/tabe/rhosa/issues" class="external-link">Report a bug</a></li>
 </ul>
@@ -174,8 +170,7 @@ Second- and Higher-Order Spectra of Music.” <em>Signal Processing</em>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

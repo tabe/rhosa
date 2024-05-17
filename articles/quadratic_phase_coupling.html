@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rhosa</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.0</span>
       </span>
     </div>
 
@@ -43,7 +43,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -114,7 +114,7 @@ recognize a certain type of QPC.</p>
 </h2>
 <p>We begin with importing rhosa:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tabe.github.io/rhosa/" class="external-link">rhosa</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tabe.github.io/rhosa/" class="external-link">rhosa</a></span><span class="op">)</span></span></code></pre></div>
 <p>Our first mathematical model, adapted from [1], is a superposition of
 six cosine curves of unit amplitude with different frequencies, named
 <span class="math inline">\(x_1\)</span>:</p>
@@ -156,38 +156,38 @@ length of time, say 256. The sampling rate is 1. That is, the interval
 of consecutive samples is 1. The following R code effectively simulates
 <span class="math inline">\(x_1\)</span> as <code>x1</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">triple_lambda</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, <span class="va">a</span> <span class="op">+</span> <span class="va">b</span><span class="op">)</span>
-<span class="va">lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu">triple_lambda</span><span class="op">(</span><span class="fl">0.55</span>, <span class="fl">0.75</span><span class="op">)</span>, <span class="fu">triple_lambda</span><span class="op">(</span><span class="fl">0.6</span>, <span class="fl">0.8</span><span class="op">)</span><span class="op">)</span>
-<span class="va">x1</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">k</span><span class="op">)</span> <span class="op">{</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="va">k</span><span class="op">)</span>
-    <span class="va">init_phi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">5</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">2</span><span class="op">*</span><span class="va">pi</span><span class="op">)</span>
-    <span class="va">phi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">init_phi</span>, <span class="va">init_phi</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span> <span class="op">+</span> <span class="va">init_phi</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span>
-    <span class="kw">function</span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">sum</span>, <span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">l</span>, <span class="va">p</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="va">l</span> <span class="op">*</span> <span class="va">t</span> <span class="op">+</span> <span class="va">p</span><span class="op">)</span>, <span class="va">lambda</span>, <span class="va">phi</span><span class="op">)</span><span class="op">)</span>
-<span class="op">}</span>
-<span class="va">observe</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">f</span><span class="op">)</span> <span class="op">{</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">256</span><span class="op">)</span>, <span class="va">f</span><span class="op">)</span>
-<span class="op">}</span>
-<span class="va">N1</span> <span class="op">&lt;-</span> <span class="fl">100</span>
-<span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">cbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Map</a></span><span class="op">(</span><span class="va">observe</span>, <span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Map</a></span><span class="op">(</span><span class="va">x1</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">N1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">triple_lambda</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, <span class="va">a</span> <span class="op">+</span> <span class="va">b</span><span class="op">)</span></span>
+<span><span class="va">lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu">triple_lambda</span><span class="op">(</span><span class="fl">0.55</span>, <span class="fl">0.75</span><span class="op">)</span>, <span class="fu">triple_lambda</span><span class="op">(</span><span class="fl">0.6</span>, <span class="fl">0.8</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">k</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="va">k</span><span class="op">)</span></span>
+<span>    <span class="va">init_phi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">5</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">2</span><span class="op">*</span><span class="va">pi</span><span class="op">)</span></span>
+<span>    <span class="va">phi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">init_phi</span>, <span class="va">init_phi</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span> <span class="op">+</span> <span class="va">init_phi</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span></span>
+<span>    <span class="kw">function</span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">sum</span>, <span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">l</span>, <span class="va">p</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="va">l</span> <span class="op">*</span> <span class="va">t</span> <span class="op">+</span> <span class="va">p</span><span class="op">)</span>, <span class="va">lambda</span>, <span class="va">phi</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="va">observe</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">f</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">256</span><span class="op">)</span>, <span class="va">f</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="va">N1</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
+<span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">cbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Map</a></span><span class="op">(</span><span class="va">observe</span>, <span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Map</a></span><span class="op">(</span><span class="va">x1</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">N1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Each column of matrix <code>m1</code> in the last line represents a
 realization of <code>x1</code>. That is, we have taken 100 realizations
 of <span class="math inline">\(x_1\)</span> as <code>m1</code>. Let’s
 plot them:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ith_sample</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="op">{</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>i <span class="op">=</span> <span class="va">i</span>, t <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">256</span><span class="op">)</span>, v <span class="op">=</span> <span class="va">m1</span><span class="op">[</span>,<span class="va">i</span><span class="op">]</span><span class="op">)</span>
-<span class="op">}</span>
-<span class="va">r1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Map</a></span><span class="op">(</span><span class="va">ith_sample</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
-
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">r1</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">t</span>, <span class="va">v</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html" class="external-link">vars</a></span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.title.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,
-          axis.text.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,
-          strip.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,
-          strip.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">ith_sample</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>i <span class="op">=</span> <span class="va">i</span>, t <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">256</span><span class="op">)</span>, v <span class="op">=</span> <span class="va">m1</span><span class="op">[</span>,<span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="va">r1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Map</a></span><span class="op">(</span><span class="va">ith_sample</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">r1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">t</span>, <span class="va">v</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html" class="external-link">vars</a></span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.title.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>          axis.text.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>          strip.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>          strip.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="quadratic_phase_coupling_files/figure-html/sec1_samples-1.png" alt="100 realizations of `x1`." width="672"><p class="caption">
 100 realizations of <code>x1</code>.
@@ -196,7 +196,7 @@ plot them:</p>
 <p>A realization of <span class="math inline">\(x_1\)</span> looks
 like:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m1</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, type <span class="op">=</span> <span class="st">"l"</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span>, xlab <span class="op">=</span> <span class="st">"t"</span>, ylab <span class="op">=</span> <span class="st">""</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m1</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, type <span class="op">=</span> <span class="st">"l"</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span>, xlab <span class="op">=</span> <span class="st">"t"</span>, ylab <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="quadratic_phase_coupling_files/figure-html/sec1_X1-1.png" alt="The 256 time points in the first realization of `x1`." width="672"><p class="caption">
 The 256 time points in the first realization of <code>x1</code>.
@@ -205,7 +205,7 @@ The 256 time points in the first realization of <code>x1</code>.
 <p>Its spectrum estimation shows peaks at six frequencies as
 expected:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/spectrum.html" class="external-link">spectrum</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/spectrum.html" class="external-link">spectrum</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="quadratic_phase_coupling_files/figure-html/sec1_spec-1.png" alt="The spectrum estimation of `x1`." width="672"><p class="caption">
 The spectrum estimation of <code>x1</code>.
@@ -214,25 +214,26 @@ The spectrum estimation of <code>x1</code>.
 <p>Now we approximate <span class="math inline">\(x_1\)</span>’s
 bicoherence by <code>bicoherence</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">bc1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bicoherence.html">bicoherence</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">bc1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bicoherence.html">bicoherence</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span></code></pre></div>
 <p>… and define an R function to plot the heat map of the estimated
 bicoherence:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">heatmap_bicoherence</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">bc</span><span class="op">)</span> <span class="op">{</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">bc</span><span class="op">)</span> <span class="op">+</span>
-        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_raster</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">f1</span>, <span class="va">f2</span>, fill <span class="op">=</span> <span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_fixed</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_alpha.html" class="external-link">scale_alpha</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="fu">heatmap_bicoherence</span><span class="op">(</span><span class="va">bc1</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">heatmap_bicoherence</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">bc</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">bc</span><span class="op">)</span> <span class="op">+</span></span>
+<span>        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_raster</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">f1</span>, <span class="va">f2</span>, fill <span class="op">=</span> <span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_fixed</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_alpha.html" class="external-link">scale_alpha</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu">heatmap_bicoherence</span><span class="op">(</span><span class="va">bc1</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="quadratic_phase_coupling_files/figure-html/sec1_heatmap_bc1-1.png" alt="`x1`'s estimated bicoherence." width="672"><p class="caption">
 <code>x1</code>’s estimated bicoherence.
 </p>
 </div>
 <p>Note that the highest peak is at the bifrequency <span class="math inline">\((f_1, f_2) = (\frac{\lambda_5}{2 \pi},
-\frac{\lambda_4}{2 \pi}) \approx (0.127, 0.095)\)</span>.</p>
+\frac{\lambda_4}{2 \pi}) \approx (0.127,
+0.095)\)</span>.</p>
 </div>
 <div class="section level2">
 <h2 id="a-three-channel-model-of-quadratic-signal-processing">A three-channel model of quadratic signal processing<a class="anchor" aria-label="anchor" href="#a-three-channel-model-of-quadratic-signal-processing"></a>
@@ -253,57 +254,57 @@ rectangle wave of another frequency for <span class="math inline">\(C_2\)</span>
 another frequency for <span class="math inline">\(C_3\)</span>’s input.
 Running the following code simulates the model.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">Fcoef1</span> <span class="op">&lt;-</span> <span class="fl">1.2</span>
-<span class="va">Fcoef2</span> <span class="op">&lt;-</span> <span class="fl">0.7</span>
-<span class="va">Fcoef3</span> <span class="op">&lt;-</span> <span class="fl">0.8</span>
-
-<span class="va">i1</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span><span class="op">)</span> <span class="op">{</span><span class="fl">2</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">asin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="va">Fcoef1</span> <span class="op">*</span> <span class="va">x</span> <span class="op">+</span> <span class="va">p</span><span class="op">)</span><span class="op">)</span><span class="op">}</span>
-<span class="va">i2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span><span class="op">)</span> <span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="va">Fcoef2</span> <span class="op">*</span> <span class="va">x</span> <span class="op">+</span> <span class="va">p</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">0</span>, <span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">}</span>
-<span class="va">i3</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span><span class="op">)</span> <span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="va">Fcoef3</span> <span class="op">*</span> <span class="va">x</span> <span class="op">+</span> <span class="va">p</span><span class="op">)</span><span class="op">}</span>
-
-<span class="va">Qcoef</span> <span class="op">&lt;-</span> <span class="fl">0.3</span>
-
-<span class="va">tc</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">k</span><span class="op">)</span> <span class="op">{</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="va">k</span><span class="op">)</span>
-    <span class="va">ps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">3</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">2</span><span class="op">*</span><span class="va">pi</span><span class="op">)</span>
-    <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
-        <span class="va">c1</span> <span class="op">&lt;-</span> <span class="fu">i1</span><span class="op">(</span><span class="va">x</span>, <span class="va">ps</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
-        <span class="va">c2</span> <span class="op">&lt;-</span> <span class="fu">i2</span><span class="op">(</span><span class="va">x</span>, <span class="va">ps</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
-        <span class="va">c3</span> <span class="op">&lt;-</span> <span class="va">Qcoef</span> <span class="op">*</span> <span class="va">c1</span> <span class="op">*</span> <span class="va">c2</span> <span class="op">+</span>
-            <span class="fu">i3</span><span class="op">(</span><span class="va">x</span>, <span class="va">ps</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
-        <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">c1</span>, <span class="va">c2</span>, <span class="va">c3</span><span class="op">)</span>
-    <span class="op">}</span>
-<span class="op">}</span>
-
-<span class="va">N2</span> <span class="op">&lt;-</span> <span class="fl">100</span>
-
-<span class="va">sample_tc</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">f</span><span class="op">)</span> <span class="op">{</span><span class="fu">f</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">256</span><span class="op">)</span><span class="op">)</span><span class="op">}</span>, <span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Map</a></span><span class="op">(</span><span class="va">tc</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">N2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="va">c1_data_frame</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">{</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">cbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">k</span><span class="op">)</span> <span class="op">{</span><span class="va">y</span><span class="op">[[</span><span class="va">k</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">c1</span><span class="op">}</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">N2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="va">c2_data_frame</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">{</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">cbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">k</span><span class="op">)</span> <span class="op">{</span><span class="va">y</span><span class="op">[[</span><span class="va">k</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">c2</span><span class="op">}</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">N2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="va">c3_data_frame</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">{</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">cbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">k</span><span class="op">)</span> <span class="op">{</span><span class="va">y</span><span class="op">[[</span><span class="va">k</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">c3</span><span class="op">}</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">N2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="va">y1</span> <span class="op">&lt;-</span> <span class="fu">sample_tc</span><span class="op">(</span><span class="op">)</span>
-<span class="va">d1</span> <span class="op">&lt;-</span> <span class="fu">c1_data_frame</span><span class="op">(</span><span class="va">y1</span><span class="op">)</span>
-<span class="va">d2</span> <span class="op">&lt;-</span> <span class="fu">c2_data_frame</span><span class="op">(</span><span class="va">y1</span><span class="op">)</span>
-<span class="va">d3</span> <span class="op">&lt;-</span> <span class="fu">c3_data_frame</span><span class="op">(</span><span class="va">y1</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">Fcoef1</span> <span class="op">&lt;-</span> <span class="fl">1.2</span></span>
+<span><span class="va">Fcoef2</span> <span class="op">&lt;-</span> <span class="fl">0.7</span></span>
+<span><span class="va">Fcoef3</span> <span class="op">&lt;-</span> <span class="fl">0.8</span></span>
+<span></span>
+<span><span class="va">i1</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span><span class="op">)</span> <span class="op">{</span><span class="fl">2</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">asin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="va">Fcoef1</span> <span class="op">*</span> <span class="va">x</span> <span class="op">+</span> <span class="va">p</span><span class="op">)</span><span class="op">)</span><span class="op">}</span></span>
+<span><span class="va">i2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span><span class="op">)</span> <span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="va">Fcoef2</span> <span class="op">*</span> <span class="va">x</span> <span class="op">+</span> <span class="va">p</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">0</span>, <span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">}</span></span>
+<span><span class="va">i3</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span><span class="op">)</span> <span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="va">Fcoef3</span> <span class="op">*</span> <span class="va">x</span> <span class="op">+</span> <span class="va">p</span><span class="op">)</span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">Qcoef</span> <span class="op">&lt;-</span> <span class="fl">0.3</span></span>
+<span></span>
+<span><span class="va">tc</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">k</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="va">k</span><span class="op">)</span></span>
+<span>    <span class="va">ps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">3</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">2</span><span class="op">*</span><span class="va">pi</span><span class="op">)</span></span>
+<span>    <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>        <span class="va">c1</span> <span class="op">&lt;-</span> <span class="fu">i1</span><span class="op">(</span><span class="va">x</span>, <span class="va">ps</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span>        <span class="va">c2</span> <span class="op">&lt;-</span> <span class="fu">i2</span><span class="op">(</span><span class="va">x</span>, <span class="va">ps</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span>        <span class="va">c3</span> <span class="op">&lt;-</span> <span class="va">Qcoef</span> <span class="op">*</span> <span class="va">c1</span> <span class="op">*</span> <span class="va">c2</span> <span class="op">+</span></span>
+<span>            <span class="fu">i3</span><span class="op">(</span><span class="va">x</span>, <span class="va">ps</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">c1</span>, <span class="va">c2</span>, <span class="va">c3</span><span class="op">)</span></span>
+<span>    <span class="op">}</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">N2</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
+<span></span>
+<span><span class="va">sample_tc</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">f</span><span class="op">)</span> <span class="op">{</span><span class="fu">f</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">256</span><span class="op">)</span><span class="op">)</span><span class="op">}</span>, <span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Map</a></span><span class="op">(</span><span class="va">tc</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">N2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">c1_data_frame</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">cbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">k</span><span class="op">)</span> <span class="op">{</span><span class="va">y</span><span class="op">[[</span><span class="va">k</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">c1</span><span class="op">}</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">N2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">c2_data_frame</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">cbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">k</span><span class="op">)</span> <span class="op">{</span><span class="va">y</span><span class="op">[[</span><span class="va">k</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">c2</span><span class="op">}</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">N2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">c3_data_frame</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">cbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">k</span><span class="op">)</span> <span class="op">{</span><span class="va">y</span><span class="op">[[</span><span class="va">k</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">c3</span><span class="op">}</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">N2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">y1</span> <span class="op">&lt;-</span> <span class="fu">sample_tc</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">d1</span> <span class="op">&lt;-</span> <span class="fu">c1_data_frame</span><span class="op">(</span><span class="va">y1</span><span class="op">)</span></span>
+<span><span class="va">d2</span> <span class="op">&lt;-</span> <span class="fu">c2_data_frame</span><span class="op">(</span><span class="va">y1</span><span class="op">)</span></span>
+<span><span class="va">d3</span> <span class="op">&lt;-</span> <span class="fu">c3_data_frame</span><span class="op">(</span><span class="va">y1</span><span class="op">)</span></span></code></pre></div>
 <p>That is, we obtain 100 series of data with 256 points. To be
 specific, <span class="math inline">\(C_1\)</span>’s triangle wave has
 cycle <span class="math inline">\(\frac{2 \pi}{1.2}\)</span>, the cycle
 of <span class="math inline">\(C_2\)</span>’s rectangle wave is <span class="math inline">\(\frac{2 \pi}{0.7}\)</span>, and the one of <span class="math inline">\(C_3\)</span>’s cosinusoidal wave is <span class="math inline">\(\frac{2 \pi}{0.8}\)</span>.</p>
 <p><span class="math inline">\(C_1\)</span>’s output looks like:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">d1</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, type <span class="op">=</span> <span class="st">"l"</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span>, xlab <span class="op">=</span> <span class="st">"t"</span>, ylab <span class="op">=</span> <span class="st">""</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">d1</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, type <span class="op">=</span> <span class="st">"l"</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span>, xlab <span class="op">=</span> <span class="st">"t"</span>, ylab <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="quadratic_phase_coupling_files/figure-html/sec2_d1-1.png" alt="A sample path of `d1`." width="672"><p class="caption">
 A sample path of <code>d1</code>.
@@ -311,7 +312,7 @@ A sample path of <code>d1</code>.
 </div>
 <p>And <span class="math inline">\(C_2\)</span>’s output:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">d2</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, type <span class="op">=</span> <span class="st">"l"</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span>, xlab <span class="op">=</span> <span class="st">"t"</span>, ylab <span class="op">=</span> <span class="st">""</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">d2</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, type <span class="op">=</span> <span class="st">"l"</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span>, xlab <span class="op">=</span> <span class="st">"t"</span>, ylab <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="quadratic_phase_coupling_files/figure-html/sec2_d2-1.png" alt="A sample path of `d2`." width="672"><p class="caption">
 A sample path of <code>d2</code>.
@@ -319,7 +320,7 @@ A sample path of <code>d2</code>.
 </div>
 <p><span class="math inline">\(C_3\)</span>’s output:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">d3</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, type <span class="op">=</span> <span class="st">"l"</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span>, xlab <span class="op">=</span> <span class="st">"t"</span>, ylab <span class="op">=</span> <span class="st">""</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">d3</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, type <span class="op">=</span> <span class="st">"l"</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span>, xlab <span class="op">=</span> <span class="st">"t"</span>, ylab <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="quadratic_phase_coupling_files/figure-html/sec2_d3-1.png" alt="A sample path of `d3`." width="672"><p class="caption">
 A sample path of <code>d3</code>.
@@ -328,21 +329,21 @@ A sample path of <code>d3</code>.
 <p>Their spectrum estimation show significant peaks at expected
 frequencies:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/spectrum.html" class="external-link">spectrum</a></span><span class="op">(</span><span class="va">d1</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/spectrum.html" class="external-link">spectrum</a></span><span class="op">(</span><span class="va">d1</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="quadratic_phase_coupling_files/figure-html/sec2_spec1-1.png" alt="The spectrum estimation of C1." width="672"><p class="caption">
 The spectrum estimation of C1.
 </p>
 </div>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/spectrum.html" class="external-link">spectrum</a></span><span class="op">(</span><span class="va">d2</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/spectrum.html" class="external-link">spectrum</a></span><span class="op">(</span><span class="va">d2</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="quadratic_phase_coupling_files/figure-html/sec2_spec2-1.png" alt="The spectrum estimation of C2." width="672"><p class="caption">
 The spectrum estimation of C2.
 </p>
 </div>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/spectrum.html" class="external-link">spectrum</a></span><span class="op">(</span><span class="va">d3</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/spectrum.html" class="external-link">spectrum</a></span><span class="op">(</span><span class="va">d3</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="quadratic_phase_coupling_files/figure-html/sec2_spec3-1.png" alt="The spectrum estimation of C3." width="672"><p class="caption">
 The spectrum estimation of C3.
@@ -352,10 +353,11 @@ The spectrum estimation of C3.
 bicoherence shows no outstanding pair of frequencies as <span class="math inline">\(C_3\)</span> does not have any big component of
 frequency <span class="math inline">\(\frac{1.2}{2 \pi}\)</span> nor
 <span class="math inline">\(\frac{0.7}{2 \pi}\)</span>, but of frequency
-<span class="math inline">\(\frac{0.8}{2 \pi}\)</span> and <span class="math inline">\(\frac{1.2+0.7}{2 \pi}\)</span> only:</p>
+<span class="math inline">\(\frac{0.8}{2 \pi}\)</span> and <span class="math inline">\(\frac{1.2+0.7}{2
+\pi}\)</span> only:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">bc3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bicoherence.html">bicoherence</a></span><span class="op">(</span><span class="va">d3</span><span class="op">)</span>
-<span class="fu">heatmap_bicoherence</span><span class="op">(</span><span class="va">bc3</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">bc3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bicoherence.html">bicoherence</a></span><span class="op">(</span><span class="va">d3</span><span class="op">)</span></span>
+<span><span class="fu">heatmap_bicoherence</span><span class="op">(</span><span class="va">bc3</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="quadratic_phase_coupling_files/figure-html/sec2_heatmap_bc3-1.png" alt="`d3`'s estimated bicoherence." width="672"><p class="caption">
 <code>d3</code>’s estimated bicoherence.
@@ -364,18 +366,18 @@ frequency <span class="math inline">\(\frac{1.2}{2 \pi}\)</span> nor
 <p>Now we calculate the estimated cross-bicoherence between <span class="math inline">\(C_1\)</span>, <span class="math inline">\(C_2\)</span>, and <span class="math inline">\(C_3\)</span> by <code>cross_bicoherence</code>,
 and plot the heat map of the results:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cb123</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cross_bicoherence.html">cross_bicoherence</a></span><span class="op">(</span><span class="va">d1</span>, <span class="va">d2</span>, <span class="va">d3</span><span class="op">)</span>
-
-<span class="va">heatmap_cross_bicoherence</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">cb</span><span class="op">)</span> <span class="op">{</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">cb</span><span class="op">)</span> <span class="op">+</span>
-        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_raster</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">f1</span>, <span class="va">f2</span>, fill <span class="op">=</span> <span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_fixed</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_alpha.html" class="external-link">scale_alpha</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="fu">heatmap_cross_bicoherence</span><span class="op">(</span><span class="va">cb123</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Raster pixels are placed at uneven vertical intervals and will be</span>
-<span class="co">#&gt; shifted. Consider using geom_tile() instead.</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">cb123</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cross_bicoherence.html">cross_bicoherence</a></span><span class="op">(</span><span class="va">d1</span>, <span class="va">d2</span>, <span class="va">d3</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">heatmap_cross_bicoherence</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">cb</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">cb</span><span class="op">)</span> <span class="op">+</span></span>
+<span>        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_raster</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">f1</span>, <span class="va">f2</span>, fill <span class="op">=</span> <span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_fixed</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>        <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_alpha.html" class="external-link">scale_alpha</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu">heatmap_cross_bicoherence</span><span class="op">(</span><span class="va">cb123</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Raster pixels are placed at uneven horizontal intervals and will be shifted</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Consider using `geom_tile()` instead.</span></span></code></pre></div>
 <div class="figure">
 <img src="quadratic_phase_coupling_files/figure-html/sec2_heatmap_cb123-1.png" alt="The estimated cross-bicoherence between C1, C2, and C3." width="672"><p class="caption">
 The estimated cross-bicoherence between C1, C2, and C3.
@@ -388,10 +390,10 @@ model is correctly identified.</p>
 <p>How about changing the order of cross-bicoherence’s arguments? Let’s
 estimate the one between <span class="math inline">\(C_3\)</span>, <span class="math inline">\(C_1\)</span>, and <span class="math inline">\(C_2\)</span>:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cb312</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cross_bicoherence.html">cross_bicoherence</a></span><span class="op">(</span><span class="va">d3</span>, <span class="va">d1</span>, <span class="va">d2</span><span class="op">)</span>
-<span class="fu">heatmap_cross_bicoherence</span><span class="op">(</span><span class="va">cb312</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Raster pixels are placed at uneven vertical intervals and will be</span>
-<span class="co">#&gt; shifted. Consider using geom_tile() instead.</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">cb312</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cross_bicoherence.html">cross_bicoherence</a></span><span class="op">(</span><span class="va">d3</span>, <span class="va">d1</span>, <span class="va">d2</span><span class="op">)</span></span>
+<span><span class="fu">heatmap_cross_bicoherence</span><span class="op">(</span><span class="va">cb312</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Raster pixels are placed at uneven horizontal intervals and will be shifted</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Consider using `geom_tile()` instead.</span></span></code></pre></div>
 <div class="figure">
 <img src="quadratic_phase_coupling_files/figure-html/sec2_heatmap_cb312-1.png" alt="The estimated cross-bicoherencde between C3, C1, and C2." width="672"><p class="caption">
 The estimated cross-bicoherencde between C3, C1, and C2.
@@ -414,13 +416,13 @@ bifrequency in problem.</p>
 the coupling strength. It is reproducible by taking a small
 <code>Qcoef</code> in our model.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">Qcoef</span> <span class="op">&lt;-</span> <span class="fl">0.01</span>
-
-<span class="va">y2</span> <span class="op">&lt;-</span> <span class="fu">sample_tc</span><span class="op">(</span><span class="op">)</span>
-<span class="va">cb2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cross_bicoherence.html">cross_bicoherence</a></span><span class="op">(</span><span class="fu">c1_data_frame</span><span class="op">(</span><span class="va">y2</span><span class="op">)</span>, <span class="fu">c2_data_frame</span><span class="op">(</span><span class="va">y2</span><span class="op">)</span>, <span class="fu">c3_data_frame</span><span class="op">(</span><span class="va">y2</span><span class="op">)</span><span class="op">)</span>
-<span class="fu">heatmap_cross_bicoherence</span><span class="op">(</span><span class="va">cb2</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Raster pixels are placed at uneven vertical intervals and will be</span>
-<span class="co">#&gt; shifted. Consider using geom_tile() instead.</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">Qcoef</span> <span class="op">&lt;-</span> <span class="fl">0.01</span></span>
+<span></span>
+<span><span class="va">y2</span> <span class="op">&lt;-</span> <span class="fu">sample_tc</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">cb2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cross_bicoherence.html">cross_bicoherence</a></span><span class="op">(</span><span class="fu">c1_data_frame</span><span class="op">(</span><span class="va">y2</span><span class="op">)</span>, <span class="fu">c2_data_frame</span><span class="op">(</span><span class="va">y2</span><span class="op">)</span>, <span class="fu">c3_data_frame</span><span class="op">(</span><span class="va">y2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">heatmap_cross_bicoherence</span><span class="op">(</span><span class="va">cb2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Raster pixels are placed at uneven horizontal intervals and will be shifted</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Consider using `geom_tile()` instead.</span></span></code></pre></div>
 <div class="figure">
 <img src="quadratic_phase_coupling_files/figure-html/sec3_weak_coupling-1.png" alt="The case of weak coupling." width="672"><p class="caption">
 The case of weak coupling.
@@ -432,16 +434,16 @@ example demonstrates that the <code>f1</code> of the bifrequency almost
 equals to the Nyquist frequency. If <code>Fcoef1</code> exceeds <span class="math inline">\(\pi\)</span>, it will be no longer
 identifiable.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">Fcoef1</span> <span class="op">&lt;-</span> <span class="va">pi</span> <span class="op">-</span> <span class="fl">0.1</span>
-<span class="va">Fcoef2</span> <span class="op">&lt;-</span> <span class="fl">2.3</span>
-<span class="va">Fcoef3</span> <span class="op">&lt;-</span> <span class="fl">1.5</span>
-<span class="va">Qcoef</span> <span class="op">&lt;-</span> <span class="fl">0.3</span>
-
-<span class="va">y3</span> <span class="op">&lt;-</span> <span class="fu">sample_tc</span><span class="op">(</span><span class="op">)</span>
-<span class="va">cb3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cross_bicoherence.html">cross_bicoherence</a></span><span class="op">(</span><span class="fu">c1_data_frame</span><span class="op">(</span><span class="va">y3</span><span class="op">)</span>, <span class="fu">c2_data_frame</span><span class="op">(</span><span class="va">y3</span><span class="op">)</span>, <span class="fu">c3_data_frame</span><span class="op">(</span><span class="va">y3</span><span class="op">)</span><span class="op">)</span>
-<span class="fu">heatmap_cross_bicoherence</span><span class="op">(</span><span class="va">cb3</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Raster pixels are placed at uneven vertical intervals and will be</span>
-<span class="co">#&gt; shifted. Consider using geom_tile() instead.</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">Fcoef1</span> <span class="op">&lt;-</span> <span class="va">pi</span> <span class="op">-</span> <span class="fl">0.1</span></span>
+<span><span class="va">Fcoef2</span> <span class="op">&lt;-</span> <span class="fl">2.3</span></span>
+<span><span class="va">Fcoef3</span> <span class="op">&lt;-</span> <span class="fl">1.5</span></span>
+<span><span class="va">Qcoef</span> <span class="op">&lt;-</span> <span class="fl">0.3</span></span>
+<span></span>
+<span><span class="va">y3</span> <span class="op">&lt;-</span> <span class="fu">sample_tc</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">cb3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cross_bicoherence.html">cross_bicoherence</a></span><span class="op">(</span><span class="fu">c1_data_frame</span><span class="op">(</span><span class="va">y3</span><span class="op">)</span>, <span class="fu">c2_data_frame</span><span class="op">(</span><span class="va">y3</span><span class="op">)</span>, <span class="fu">c3_data_frame</span><span class="op">(</span><span class="va">y3</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">heatmap_cross_bicoherence</span><span class="op">(</span><span class="va">cb3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Raster pixels are placed at uneven horizontal intervals and will be shifted</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Consider using `geom_tile()` instead.</span></span></code></pre></div>
 <div class="figure">
 <img src="quadratic_phase_coupling_files/figure-html/sec3_too_high_frequency-1.png" alt="The case of nearly-Nyquist frequency of `f1`." width="672"><p class="caption">
 The case of nearly-Nyquist frequency of <code>f1</code>.
@@ -451,17 +453,17 @@ The case of nearly-Nyquist frequency of <code>f1</code>.
 the number of samples <code>N2</code> is too small, we cannot
 distinguish the coupling bifrequency from the others.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">Fcoef1</span> <span class="op">&lt;-</span> <span class="fl">1.2</span>
-<span class="va">Fcoef2</span> <span class="op">&lt;-</span> <span class="fl">0.7</span>
-<span class="va">Fcoef3</span> <span class="op">&lt;-</span> <span class="fl">0.8</span>
-<span class="va">Qcoef</span> <span class="op">&lt;-</span> <span class="fl">0.3</span>
-<span class="va">N2</span> <span class="op">&lt;-</span> <span class="fl">10</span>
-
-<span class="va">y4</span> <span class="op">&lt;-</span> <span class="fu">sample_tc</span><span class="op">(</span><span class="op">)</span>
-<span class="va">cb4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cross_bicoherence.html">cross_bicoherence</a></span><span class="op">(</span><span class="fu">c1_data_frame</span><span class="op">(</span><span class="va">y4</span><span class="op">)</span>, <span class="fu">c2_data_frame</span><span class="op">(</span><span class="va">y4</span><span class="op">)</span>, <span class="fu">c3_data_frame</span><span class="op">(</span><span class="va">y4</span><span class="op">)</span><span class="op">)</span>
-<span class="fu">heatmap_cross_bicoherence</span><span class="op">(</span><span class="va">cb4</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Raster pixels are placed at uneven vertical intervals and will be</span>
-<span class="co">#&gt; shifted. Consider using geom_tile() instead.</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">Fcoef1</span> <span class="op">&lt;-</span> <span class="fl">1.2</span></span>
+<span><span class="va">Fcoef2</span> <span class="op">&lt;-</span> <span class="fl">0.7</span></span>
+<span><span class="va">Fcoef3</span> <span class="op">&lt;-</span> <span class="fl">0.8</span></span>
+<span><span class="va">Qcoef</span> <span class="op">&lt;-</span> <span class="fl">0.3</span></span>
+<span><span class="va">N2</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
+<span></span>
+<span><span class="va">y4</span> <span class="op">&lt;-</span> <span class="fu">sample_tc</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">cb4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cross_bicoherence.html">cross_bicoherence</a></span><span class="op">(</span><span class="fu">c1_data_frame</span><span class="op">(</span><span class="va">y4</span><span class="op">)</span>, <span class="fu">c2_data_frame</span><span class="op">(</span><span class="va">y4</span><span class="op">)</span>, <span class="fu">c3_data_frame</span><span class="op">(</span><span class="va">y4</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">heatmap_cross_bicoherence</span><span class="op">(</span><span class="va">cb4</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Raster pixels are placed at uneven horizontal intervals and will be shifted</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Consider using `geom_tile()` instead.</span></span></code></pre></div>
 <div class="figure">
 <img src="quadratic_phase_coupling_files/figure-html/sec3_undersampling-1.png" alt="The case of insufficient sample." width="672"><p class="caption">
 The case of insufficient sample.
@@ -509,8 +511,7 @@ Control in Biomedical Systems, Galveston, TX, USA, 27-30 March 1994 27,
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
