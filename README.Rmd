@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/rhosa)](https://CRAN.R-project.org/package=rhosa)
 [![R-CMD-check](https://github.com/tabe/rhosa/workflows/R-CMD-check/badge.svg)](https://github.com/tabe/rhosa/actions)
+[![downloads](https://cranlogs.r-pkg.org/badges/rhosa)](https://CRAN.R-project.org/package=rhosa)
 <!-- badges: end -->
 
 This package aims to provide functions to estimate higher-order spectra or
